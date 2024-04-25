@@ -6,4 +6,22 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Entities - Copy\**" />
+    <Compile Remove="Migrations - Copy\**" />
+    <Compile Remove="Services - Copy\**" />
+    <EmbeddedResource Remove="Entities - Copy\**" />
+    <EmbeddedResource Remove="Migrations - Copy\**" />
+    <EmbeddedResource Remove="Services - Copy\**" />
+    <None Remove="Entities - Copy\**" />
+    <None Remove="Migrations - Copy\**" />
+    <None Remove="Services - Copy\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Services\Implementations\" />
+  </ItemGroup>
+
 </Project>
