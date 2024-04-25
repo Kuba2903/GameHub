@@ -41,6 +41,19 @@ namespace Infrastructure
 
             modelBuilder.Entity<Region_Sales>()
                 .HasKey(x => new { x.RegionId, x.Game_PlatformId });
+
+
+            modelBuilder.Entity<Genre>()
+                .HasData(new Genre() { Id = 1 ,Genre_Name = "RPG"}, new Genre() {Id = 2 ,Genre_Name = "RTS"},
+                new Genre() {Id = 3 ,Genre_Name = "Shooters"}, new Genre() { Id = 4 ,Genre_Name = "Sports"},
+                new Genre() { Id = 5 ,Genre_Name = "Simulators"});
+
+            modelBuilder.Entity<Game>()
+                .HasData(new Game() {Id = 1 , GenreId = 1, Game_Name = "The Witcher" },
+                new Game() { Id = 2 ,GenreId = 2, Game_Name = "Warcraft" },
+                new Game() { Id = 3 ,GenreId = 3, Game_Name = "Call of Duty" },
+                new Game() { Id = 4 ,GenreId = 4, Game_Name = "Fifa" },
+                new Game() { Id = 5 ,GenreId = 5, Game_Name = "Farming Simulator" });
         }
     }
 }
