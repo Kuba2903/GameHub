@@ -11,10 +11,9 @@ namespace Infrastructure.Entities
     {
         public int Id { get; set; }
 
-        [Required]
         [StringLength(100)]
         public string Genre_Name { get; set; }
 
-        public ICollection<Game> Games { get; set; } = new List<Game>();
+        public ICollection<Game> Games { get; set; }
     }
 }

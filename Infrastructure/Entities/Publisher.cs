@@ -11,7 +11,6 @@ namespace Infrastructure.Entities
     {
         public int Id { get; set; }
 
-        [Required]
         [StringLength(150)]
         public string Publisher_Name { get; set; }
 

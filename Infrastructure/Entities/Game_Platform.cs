@@ -24,5 +24,8 @@ namespace Infrastructure.Entities
 
         [ForeignKey("PlatformId")]
         public Platform Platform { get; set; }
+
+
+        public ICollection<Region_Sales> Region_Sales { get; set; }
     }
 }

@@ -11,7 +11,6 @@ namespace Infrastructure.Entities
     {
         public int Id { get; set; }
 
-        [Required]
         [StringLength(100)]
         public string Platform_Name { get; set; }
 

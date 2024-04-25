@@ -12,7 +12,6 @@ namespace Infrastructure.Entities
     {
         public int Id { get; set; }
 
-        [Required]
         [StringLength(200)]
         public string Game_Name { get; set; }
 
