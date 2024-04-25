@@ -26,7 +26,7 @@
 *.tlog
 *.vspscc
 *.vssscc
-.builds
+*.builds
 *.pidb
 *.svclog
 *.scc
@@ -36,11 +36,15 @@
 *pubxml.user
 *.log
 *.deploy.cmd
+**/obj/
+**/bin/
 .vs/
 /Logs/
 /App_Data/
 /.docker/
 /wwwroot/
+bin/
+obj/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
