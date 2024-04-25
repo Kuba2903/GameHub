@@ -14,5 +14,8 @@ namespace Infrastructure.Entities
         [Required]
         [StringLength(100)]
         public string Platform_Name { get; set; }
+
+
+        public ICollection<Game_Platform> Game_Platforms { get; set; }
     }
 }

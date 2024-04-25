@@ -20,5 +20,8 @@ namespace Infrastructure.Entities
 
         [ForeignKey("GenreId")]
         public Genre Genre { get; set; }
+
+
+        public ICollection<Game_Publisher> Games_Publishers { get; set; }
     }
 }

@@ -14,5 +14,8 @@ namespace Infrastructure.Entities
         [Required]
         [StringLength(150)]
         public string Publisher_Name { get; set; }
+
+
+        public ICollection<Game_Publisher> Games_Publishers { get; set; }
     }
 }
