@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,34 +10,41 @@ namespace Infrastructure.Services.Implementations
 {
     public class VideoGamesService : IVideoGames
     {
-        public Task<IEnumerable<T>> GetAllAsync<T>() where T : class
+        private readonly AppDbContext _appDbContext;
+
+        public VideoGamesService(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
         }
+
+        public async Task<IEnumerable<T>> GetAllAsync<T>() where T : class =>
+            await _appDbContext.Set<T>().AsNoTracking().ToListAsync();
+        
 
         public Task<IEnumerable<T>> GetAllAsync<T>(int pageSize, int pageNumber) where T : class
         {
             throw new NotImplementedException();
         }
 
-        public Task<T> FindByIdAsync<T>(int id) where T : class
+        public async Task<T> FindByIdAsync<T>(int id) where T : class =>
+            await _appDbContext.Set<T>().FindAsync(id);
+
+        public async Task AddAsync<T>(T entity) where T : class
         {
-            throw new NotImplementedException();
+            await _appDbContext.Set<T>().AddAsync(entity);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public Task AddAsync<T>(T entity) where T : class
+        public async Task UpdateAsync<T>(T entity) where T : class
         {
-            throw new NotImplementedException();
+            _appDbContext.Set<T>().Update(entity);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public Task UpdateAsync<T>(T entity) where T : class
+        public async Task RemoveAsync<T>(T entity) where T : class
         {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveAsync<T>(T entity) where T : class
-        {
-            throw new NotImplementedException();
+            _appDbContext.Set<T>().Remove(entity);
+            await _appDbContext.SaveChangesAsync();
         }
     }
 }
