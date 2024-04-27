@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>();
-builder.Services.AddSingleton<IVideoGames, VideoGamesService>();
+builder.Services.AddScoped<IVideoGames, VideoGamesService>();
 
 var app = builder.Build();
 
