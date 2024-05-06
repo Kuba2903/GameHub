@@ -1,4 +1,5 @@
-﻿using Infrastructure.Entities;
+﻿using API.DTO_s;
+using Infrastructure.Entities;
 using Infrastructure.Services.Implementations;
 using Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -25,8 +26,13 @@ namespace API.Controllers
         {
             var result = await _videoGamesService.GetAllAsync<Game>();
 
-            return Ok(result);
+            if(result != null)
+                return Ok(result);
+            else
+                return NotFound();
         }
+
+
 
     }
 }
