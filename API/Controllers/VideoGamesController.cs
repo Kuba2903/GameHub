@@ -1,4 +1,5 @@
 ﻿using API.DTO_s;
+using AutoMapper;
 using Infrastructure.Entities;
 using Infrastructure.Services.Implementations;
 using Infrastructure.Services.Interfaces;
@@ -13,9 +14,11 @@ namespace API.Controllers
     {
         private readonly IVideoGames _videoGamesService;
 
-        public VideoGamesController(IVideoGames videoGamesService)
+        private readonly IMapper _mapper;
+        public VideoGamesController(IVideoGames videoGamesService, IMapper mapper)
         {
             _videoGamesService = videoGamesService;
+            _mapper = mapper;
         }
 
 
@@ -26,8 +29,9 @@ namespace API.Controllers
         {
             var result = await _videoGamesService.GetAllAsync<Game>();
 
+            
             if(result != null)
-                return Ok(result);
+                return Ok(result.Select(_mapper.Map<GameDTO>));
             else
                 return NotFound();
         }
