@@ -401,5 +401,22 @@ namespace API.Controllers
         }
         #endregion
 
+        ///PUT ENDPOINTS
+
+        [HttpPut]
+        [Route("updateGame")]
+
+        public async Task<IActionResult> UpdateGame(GameDTO dto)
+        {
+            var mapped = _mapper.Map<Game>(dto);
+            
+            if (mapped != null)
+            {
+                await _videoGamesService.UpdateAsync(mapped);
+                return Ok("Updated");
+            }
+            else
+                return NotFound("Not found");
+        }
     }
 }
