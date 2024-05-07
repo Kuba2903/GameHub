@@ -1,4 +1,5 @@
-﻿using API.DTO_s;
+﻿using API.Add_DTO_s;
+using API.DTO_s;
 using AutoMapper;
 using Infrastructure.Entities;
 using Infrastructure.Services.Implementations;
@@ -162,7 +163,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("addGame")]
 
-        public async Task<IActionResult> AddGameAsync(GameDTO dto)
+        public async Task<IActionResult> AddGameAsync(AddGameDTO dto)
         {
             var mapped = _mapper.Map<Game>(dto);
 
@@ -175,7 +176,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("addGenre")]
 
-        public async Task<IActionResult> AddGenreAsync(GenreDTO dto)
+        public async Task<IActionResult> AddGenreAsync(AddGenreDTO dto)
         {
             var mapped = _mapper.Map<Genre>(dto);
 
@@ -187,7 +188,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("addPublishers")]
 
-        public async Task<IActionResult> AddPublishersAsync(PublisherDTO dto)
+        public async Task<IActionResult> AddPublishersAsync(AddPublisherDTO dto)
         {
             var mapped = _mapper.Map<Publisher>(dto);
 
@@ -200,7 +201,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("addGame_Publisher")]
 
-        public async Task<IActionResult> AddGame_PublisherAsync(Game_PublisherDTO dto)
+        public async Task<IActionResult> AddGame_PublisherAsync(AddGame_PublisherDTO dto)
         {
             var mapped = _mapper.Map<Game_Publisher>(dto);
 
@@ -213,7 +214,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("addPlatform")]
 
-        public async Task<IActionResult> AddPlatformAsync(PlatformDTO dto)
+        public async Task<IActionResult> AddPlatformAsync(AddPlatformDTO dto)
         {
             var mapped = _mapper.Map<Platform>(dto);
 
@@ -226,7 +227,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("addGame_Platform")]
 
-        public async Task<IActionResult> AddGame_PlatformAsync(Game_PlatformDTO dto)
+        public async Task<IActionResult> AddGame_PlatformAsync(AddGame_PlatformDTO dto)
         {
             var mapped = _mapper.Map<Game_Platform>(dto);
 
@@ -239,7 +240,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("addRegion")]
 
-        public async Task<IActionResult> AddRegionAsync(RegionDTO dto)
+        public async Task<IActionResult> AddRegionAsync(AddRegionDTO dto)
         {
             var mapped = _mapper.Map<Region>(dto);
 
@@ -252,7 +253,7 @@ namespace API.Controllers
         [HttpPost]
         [Route("addRegion_Sales")]
 
-        public async Task<IActionResult> AddRegion_SalesAsync(Region_SalesDTO dto)
+        public async Task<IActionResult> AddRegion_SalesAsync(AddRegion_SalesDTO dto)
         {
             var mapped = _mapper.Map<Region_Sales>(dto);
 
