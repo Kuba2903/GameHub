@@ -9,6 +9,7 @@ namespace API
         public AutoMapper()
         {
            CreateMap<Game,GameDTO>();
+           CreateMap<GameDTO,Game>().ForMember(x => x.Id, opt => opt.Ignore());
            CreateMap<Genre,GenreDTO>();
            CreateMap<Game_Publisher,Game_PublisherDTO>();
            CreateMap<Game_Platform,Game_PlatformDTO>();

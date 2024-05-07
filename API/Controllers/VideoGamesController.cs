@@ -21,6 +21,8 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        ///GET ENDPOINTS
+        #region
 
         [HttpGet]
         [Route("getGames")]
@@ -152,5 +154,113 @@ namespace API.Controllers
             else
                 return NotFound();
         }
+
+        #endregion
+
+        ///POST ENDPOINTS
+        #region
+        [HttpPost]
+        [Route("addGame")]
+
+        public async Task<IActionResult> AddGameAsync(GameDTO dto)
+        {
+            var mapped = _mapper.Map<Game>(dto);
+
+            await _videoGamesService.AddAsync(mapped);
+
+            return Ok("Added record to the database");
+        }
+
+
+        [HttpPost]
+        [Route("addGenre")]
+
+        public async Task<IActionResult> AddGenreAsync(GenreDTO dto)
+        {
+            var mapped = _mapper.Map<Genre>(dto);
+
+            await _videoGamesService.AddAsync(mapped);
+
+            return Ok("Added record to the database");
+        }
+
+        [HttpPost]
+        [Route("addPublishers")]
+
+        public async Task<IActionResult> AddPublishersAsync(PublisherDTO dto)
+        {
+            var mapped = _mapper.Map<Publisher>(dto);
+
+            await _videoGamesService.AddAsync(mapped);
+
+            return Ok("Added record to the database");
+        }
+
+
+        [HttpPost]
+        [Route("addGame_Publisher")]
+
+        public async Task<IActionResult> AddGame_PublisherAsync(Game_PublisherDTO dto)
+        {
+            var mapped = _mapper.Map<Game_Publisher>(dto);
+
+            await _videoGamesService.AddAsync(mapped);
+
+            return Ok("Added record to the database");
+        }
+
+
+        [HttpPost]
+        [Route("addPlatform")]
+
+        public async Task<IActionResult> AddPlatformAsync(PlatformDTO dto)
+        {
+            var mapped = _mapper.Map<Platform>(dto);
+
+            await _videoGamesService.AddAsync(mapped);
+
+            return Ok("Added record to the database");
+        }
+
+
+        [HttpPost]
+        [Route("addGame_Platform")]
+
+        public async Task<IActionResult> AddGame_PlatformAsync(Game_PlatformDTO dto)
+        {
+            var mapped = _mapper.Map<Game_Platform>(dto);
+
+            await _videoGamesService.AddAsync(mapped);
+
+            return Ok("Added record to the database");
+        }
+
+
+        [HttpPost]
+        [Route("addRegion")]
+
+        public async Task<IActionResult> AddRegionAsync(RegionDTO dto)
+        {
+            var mapped = _mapper.Map<Region>(dto);
+
+            await _videoGamesService.AddAsync(mapped);
+
+            return Ok("Added record to the database");
+        }
+
+
+        [HttpPost]
+        [Route("addRegion_Sales")]
+
+        public async Task<IActionResult> AddRegion_SalesAsync(Region_SalesDTO dto)
+        {
+            var mapped = _mapper.Map<Region_Sales>(dto);
+
+            await _videoGamesService.AddAsync(mapped);
+
+            return Ok("Added record to the database");
+        }
+
+        #endregion
     }
 }
