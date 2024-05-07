@@ -1,4 +1,5 @@
-﻿using API.DTO_s;
+﻿using API.Add_DTO_s;
+using API.DTO_s;
 using AutoMapper;
 using Infrastructure.Entities;
 
@@ -18,14 +19,24 @@ namespace API
            CreateMap<Region_Sales, Region_SalesDTO>();
 
 
-           CreateMap<GameDTO, Game>().ForMember(x => x.Id, opt => opt.Ignore());
-           CreateMap<GenreDTO, Genre>().ForMember(x => x.Id, opt => opt.Ignore());
-           CreateMap<Game_PublisherDTO, Game_Publisher>().ForMember(x => x.Id, opt => opt.Ignore());
-           CreateMap<Game_PlatformDTO, Game_Platform>().ForMember(x => x.Id, opt => opt.Ignore());
-           CreateMap<PlatformDTO, Platform>().ForMember(x => x.Id, opt => opt.Ignore());
-           CreateMap<PublisherDTO, Publisher>().ForMember(x => x.Id, opt => opt.Ignore());
-           CreateMap<RegionDTO, Region>().ForMember(x => x.Id, opt => opt.Ignore());
+           CreateMap<GameDTO, Game>();
+           CreateMap<GenreDTO, Genre>();
+           CreateMap<Game_PublisherDTO, Game_Publisher>();
+           CreateMap<Game_PlatformDTO, Game_Platform>();
+           CreateMap<PlatformDTO, Platform>();
+           CreateMap<PublisherDTO, Publisher>();
+           CreateMap<RegionDTO, Region>();
            CreateMap<Region_SalesDTO, Region_Sales>();
+
+
+           CreateMap<AddGameDTO, Game>().ForMember(x => x.Id, opt => opt.Ignore());
+           CreateMap<AddGenreDTO, Genre>().ForMember(x => x.Id, opt => opt.Ignore());
+           CreateMap<AddGame_PublisherDTO, Game_Publisher>().ForMember(x => x.Id, opt => opt.Ignore());
+           CreateMap<AddGame_PlatformDTO, Game_Platform>().ForMember(x => x.Id, opt => opt.Ignore());
+           CreateMap<AddPlatformDTO, Platform>().ForMember(x => x.Id, opt => opt.Ignore());
+           CreateMap<AddPublisherDTO, Publisher>().ForMember(x => x.Id, opt => opt.Ignore());
+           CreateMap<AddRegionDTO, Region>().ForMember(x => x.Id, opt => opt.Ignore());
+           CreateMap<AddRegion_SalesDTO, Region_Sales>();
         }
     }
 }
