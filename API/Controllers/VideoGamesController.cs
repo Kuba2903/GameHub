@@ -262,5 +262,144 @@ namespace API.Controllers
         }
 
         #endregion
+
+
+        ///DELETE ENDPOINTS
+        #region
+        [HttpDelete]
+        [Route("deleteGame")]
+
+        public async Task<IActionResult> DeleteGame(int id)
+        {
+            var entity = await _videoGamesService.FindByIdAsync<Game>(id);
+
+            if (entity != null)
+            {
+                await _videoGamesService.RemoveAsync(entity);
+                return Ok("Record removed");
+            }
+            else
+                return NotFound($"Record with {id} id not found");
+            
+        }
+
+        [HttpDelete]
+        [Route("deleteGenre")]
+        public async Task<IActionResult> DeleteGenre(int id)
+        {
+            var entity = await _videoGamesService.FindByIdAsync<Genre>(id);
+
+            if (entity != null)
+            {
+                await _videoGamesService.RemoveAsync(entity);
+                return Ok("Record removed");
+            }
+            else
+                return NotFound($"Record with {id} id not found");
+
+        }
+
+
+        [HttpDelete]
+        [Route("deletePublishers")]
+        public async Task<IActionResult> DeletePublishers(int id)
+        {
+            var entity = await _videoGamesService.FindByIdAsync<Publisher>(id);
+
+            if (entity != null)
+            {
+                await _videoGamesService.RemoveAsync(entity);
+                return Ok("Record removed");
+            }
+            else
+                return NotFound($"Record with {id} id not found");
+
+        }
+
+
+        [HttpDelete]
+        [Route("deleteGame_Publishers")]
+        public async Task<IActionResult> DeleteGame_Publishers(int id)
+        {
+            var entity = await _videoGamesService.FindByIdAsync<Game_Publisher>(id);
+
+            if (entity != null)
+            {
+                await _videoGamesService.RemoveAsync(entity);
+                return Ok("Record removed");
+            }
+            else
+                return NotFound($"Record with {id} id not found");
+
+        }
+
+
+
+        [HttpDelete]
+        [Route("deletePlatform")]
+        public async Task<IActionResult> DeletePlatform(int id)
+        {
+            var entity = await _videoGamesService.FindByIdAsync<Platform>(id);
+
+            if (entity != null)
+            {
+                await _videoGamesService.RemoveAsync(entity);
+                return Ok("Record removed");
+            }
+            else
+                return NotFound($"Record with {id} id not found");
+
+        }
+
+
+        [HttpDelete]
+        [Route("deleteGame_Platform")]
+        public async Task<IActionResult> DeleteGame_Platform(int id)
+        {
+            var entity = await _videoGamesService.FindByIdAsync<Game_Platform>(id);
+
+            if (entity != null)
+            {
+                await _videoGamesService.RemoveAsync(entity);
+                return Ok("Record removed");
+            }
+            else
+                return NotFound($"Record with {id} id not found");
+
+        }
+
+        [HttpDelete]
+        [Route("deleteRegion")]
+        public async Task<IActionResult> DeleteRegion(int id)
+        {
+            var entity = await _videoGamesService.FindByIdAsync<Region>(id);
+
+            if (entity != null)
+            {
+                await _videoGamesService.RemoveAsync(entity);
+                return Ok("Record removed");
+            }
+            else
+                return NotFound($"Record with {id} id not found");
+
+        }
+
+        [HttpDelete]
+        [Route("deleteRegion_Sales")]
+        public async Task<IActionResult> DeleteRegion_Sales(int id)
+        {
+            var entity = await _videoGamesService.FindByIdAsync<Region_Sales>(id);
+
+            if (entity != null)
+            {
+                await _videoGamesService.RemoveAsync(entity);
+                return Ok("Record removed");
+            }
+            else
+                return NotFound($"Record with {id} id not found");
+
+        }
+        #endregion
+
     }
 }
