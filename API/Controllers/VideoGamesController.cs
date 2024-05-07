@@ -25,10 +25,12 @@ namespace API.Controllers
         [HttpGet]
         [Route("getGames")]
 
-        public async Task<IActionResult> GetAllGamesAsync()
+        public async Task<IActionResult> GetAllGamesAsync([FromQuery] int pageSize = 2, [FromQuery] int pageNumber = 1)
         {
-            var result = await _videoGamesService.GetAllAsync<Game>();
+            if (pageSize < 1 || pageNumber < 1)
+                return BadRequest("pageSize or pageNumber must be greater than 0!");
 
+            var result = await _videoGamesService.GetAllAsync<Game>(pageSize,pageNumber);
             
             if(result != null)
                 return Ok(result.Select(_mapper.Map<GameDTO>));

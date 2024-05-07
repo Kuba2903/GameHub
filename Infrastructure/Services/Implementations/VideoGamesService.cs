@@ -21,9 +21,11 @@ namespace Infrastructure.Services.Implementations
             await _appDbContext.Set<T>().AsNoTracking().ToListAsync();
         
 
-        public Task<IEnumerable<T>> GetAllAsync<T>(int pageSize, int pageNumber) where T : class
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int pageSize, int pageNumber) where T : class
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Set<T>()
+                .Skip((pageNumber-1) * pageSize)
+                .Take(pageSize).ToListAsync();
         }
 
         public async Task<T> FindByIdAsync<T>(int id) where T : class =>
