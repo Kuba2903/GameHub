@@ -403,6 +403,7 @@ namespace API.Controllers
         #endregion
 
         ///PUT ENDPOINTS
+        #region
 
         [HttpPut]
         [Route("updateGame")]
@@ -419,5 +420,114 @@ namespace API.Controllers
             else
                 return NotFound("Not found");
         }
+
+
+        [HttpPut]
+        [Route("updateGenres")]
+
+        public async Task<IActionResult> UpdateGenre(GenreDTO dto)
+        {
+            var mapped = _mapper.Map<Genre>(dto);
+
+            if (mapped != null)
+            {
+                await _videoGamesService.UpdateAsync(mapped);
+                return Ok("Updated");
+            }
+            else
+                return NotFound("Not found");
+        }
+
+
+        [HttpPut]
+        [Route("updatePublisher")]
+        public async Task<IActionResult> UpdatePublisher(PublisherDTO dto)
+        {
+            var mapped = _mapper.Map<Publisher>(dto);
+
+            if (mapped != null)
+            {
+                await _videoGamesService.UpdateAsync(mapped);
+                return Ok("Updated");
+            }
+            else
+                return NotFound("Not found");
+        }
+
+        [HttpPut]
+        [Route("updateGame_Publisher")]
+        public async Task<IActionResult> UpdateGame_Publisher(Game_PublisherDTO dto)
+        {
+            var mapped = _mapper.Map<Game_Publisher>(dto);
+
+            if (mapped != null)
+            {
+                await _videoGamesService.UpdateAsync(mapped);
+                return Ok("Updated");
+            }
+            else
+                return NotFound("Not found");
+        }
+
+        [HttpPut]
+        [Route("updatePlatform")]
+        public async Task<IActionResult> UpdatePlatform(PlatformDTO dto)
+        {
+            var mapped = _mapper.Map<Platform>(dto);
+
+            if (mapped != null)
+            {
+                await _videoGamesService.UpdateAsync(mapped);
+                return Ok("Updated");
+            }
+            else
+                return NotFound("Not found");
+        }
+
+        [HttpPut]
+        [Route("updateGame_Platform")]
+        public async Task<IActionResult> UpdateGame_Platform(Game_PlatformDTO dto)
+        {
+            var mapped = _mapper.Map<Game_Platform>(dto);
+
+            if (mapped != null)
+            {
+                await _videoGamesService.UpdateAsync(mapped);
+                return Ok("Updated");
+            }
+            else
+                return NotFound("Not found");
+        }
+
+        [HttpPut]
+        [Route("updateRegion")]
+        public async Task<IActionResult> UpdateRegion(RegionDTO dto)
+        {
+            var mapped = _mapper.Map<Region>(dto);
+
+            if (mapped != null)
+            {
+                await _videoGamesService.UpdateAsync(mapped);
+                return Ok("Updated");
+            }
+            else
+                return NotFound("Not found");
+        }
+
+        [HttpPut]
+        [Route("updateRegion_Sales")]
+        public async Task<IActionResult> UpdateRegion_Sales(Region_SalesDTO dto)
+        {
+            var mapped = _mapper.Map<Region_Sales>(dto);
+
+            if (mapped != null)
+            {
+                await _videoGamesService.UpdateAsync(mapped);
+                return Ok("Updated");
+            }
+            else
+                return NotFound("Not found");
+        }
+        #endregion
     }
 }
