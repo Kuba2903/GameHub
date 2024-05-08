@@ -29,14 +29,55 @@ namespace Infrastructure.Services.Implementations
             jwt = options;
         }
 
-        public Task CreateAsync(RegisterDTO register)
+        public async Task CreateAsync(RegisterDTO register)
         {
-            throw new NotImplementedException();
+            if(register == null)
+                throw new ArgumentNullException(nameof(register));
+
+            var user = await FindUserByLogin(register.Login);
+
+            if(user == null)
+            {
+                User newUser = new User()
+                {
+                    Login = register.Login,
+                    Password = BCrypt.Net.BCrypt.HashPassword(register.Password)
+                };
+
+                User_Role user_Role = new User_Role()
+                {
+                    UserId = newUser.Id,
+                    RoleId = 2 //adds user role
+                };
+
+                await _appDbContext.Users.AddAsync(newUser);
+                await _appDbContext.User_Roles.AddAsync(user_Role);
+                await _appDbContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception("User exists");
+            }
+
+
         }
 
-        public Task LoginAsync(LoginDTO login)
+        public async Task LoginAsync(LoginDTO login)
         {
-            throw new NotImplementedException();
+            if(login == null)
+                throw new ArgumentNullException(nameof(login));
+
+            var user = await FindUserByLogin(login.Login);
+
+            if (!BCrypt.Net.BCrypt.Verify(login.Password, user.Password))
+                throw new Exception("password invalid");
+
+
+            var getUserRole = await FindUserRole(user.Id);
+
+            var getSystemRole = await FindSystemRole(getUserRole.RoleId);
+
+            string token = GenerateToken(user,getSystemRole.RoleName);
         }
 
 
@@ -64,7 +105,7 @@ namespace Infrastructure.Services.Implementations
         private async Task<Role> FindSystemRole(int id) =>
             await _appDbContext.Roles.FirstOrDefaultAsync(x => x.Id == id);
 
-        private async Task<User> FindUserByEmail(string login) =>
+        private async Task<User> FindUserByLogin(string login) =>
             await _appDbContext.Users.FirstOrDefaultAsync(x => x.Login.ToLower() == login.ToLower());
     }
 }
