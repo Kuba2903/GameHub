@@ -128,6 +128,23 @@ namespace Infrastructure
                 new Region_Sales() { RegionId = 4, Game_PlatformId = 1, Num_Sales = 50 }
                 );
 
+            ///data for user_roles
+
+            modelBuilder.Entity<Role>()
+                .HasData(new Role() { Id = 1, RoleName = "Administrator"},
+                new Role() { Id = 2, RoleName = "User"}
+                );
+
+            modelBuilder.Entity<User>()
+                .HasData(new User() { Id = 1, Login = "User0", Password = "password123!"},
+                    new User() { Id = 2, Login = "User1", Password = "password321!"}
+                );
+
+            modelBuilder.Entity<User_Role>()
+                .HasData(new User_Role() { Id = 1, UserId = 1, RoleId = 1 },
+                new User_Role() { Id = 2, UserId = 1, RoleId = 2},
+                new User_Role() { Id = 3, UserId = 2, RoleId = 2 }
+                );
         }
     }
 }
