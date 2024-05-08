@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities;
+using Infrastructure.Entities.User_Roles_Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,11 @@ namespace Infrastructure
         public DbSet<Game_Platform> Game_Platforms { get; set; }
         public DbSet<Region_Sales> Region_Sales { get; set; }
 
+        //user_roles entites
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<User_Role> User_Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
