@@ -78,6 +78,22 @@ namespace Infrastructure.Services.Implementations
             var getSystemRole = await FindSystemRole(getUserRole.RoleId);
 
             string token = GenerateToken(user,getSystemRole.RoleName);
+
+            string refresh = GenerateRefreshToken();
+
+            var checkUser = await _appDbContext.RefreshTokens.FirstOrDefaultAsync(x => x.UserId == user.Id);
+
+            if (checkUser != null)
+            {
+                checkUser.Token = refresh;
+                await _appDbContext.SaveChangesAsync();
+            }
+            else
+            {
+                await _appDbContext.RefreshTokens.AddAsync(
+                    new RefreshTokenInfo { Token = refresh, UserId = checkUser.Id });
+                await _appDbContext.SaveChangesAsync();
+            }
         }
 
 
