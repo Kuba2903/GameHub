@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.JwtHelpers;
+using Core.Login_RegisterDTO_s;
 
 namespace Infrastructure.Services.Implementations
 {
@@ -123,5 +124,39 @@ namespace Infrastructure.Services.Implementations
 
         private async Task<User> FindUserByLogin(string login) =>
             await _appDbContext.Users.FirstOrDefaultAsync(x => x.Login.ToLower() == login.ToLower());
+
+        public async Task RefreshTokenAsync(RefreshTokenDTO refreshToken)
+        {
+            if (refreshToken == null)
+                throw new ArgumentNullException(nameof(refreshToken));
+
+            var token = await _appDbContext.RefreshTokens.FirstOrDefaultAsync(
+                x => x.Token == refreshToken.Token);
+
+            if(token == null)
+                throw new ArgumentNullException(nameof(token));
+
+            var user = await _appDbContext.Users.FirstOrDefaultAsync(
+                x => x.Id == token.UserId);
+
+            if(user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            var userRole = await FindUserRole(user.Id);
+            var systemRole = await FindSystemRole(userRole.RoleId);
+
+            string genToken = GenerateToken(user, systemRole.RoleName!);
+            string refresh = GenerateRefreshToken();
+
+            var updateRefreshToken = await _appDbContext.RefreshTokens.FirstOrDefaultAsync(
+                x => x.UserId == user.Id);
+
+            if (updateRefreshToken == null)
+                throw new ArgumentNullException(nameof(updateRefreshToken));
+
+            updateRefreshToken.Token = refresh;
+
+            await _appDbContext.SaveChangesAsync();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using API.DTO_s.User_RolesDTO_s;
+using Core.Login_RegisterDTO_s;
 using Infrastructure.User_RolesDTO_s;
 using Microsoft.Win32;
 using System;
@@ -16,6 +17,6 @@ namespace Infrastructure.Services.Interfaces
 
         Task LoginAsync(LoginDTO login);
 
-        //Task<LoginResponse> RefreshTokenAsync(RefreshToken refreshToken);
+        Task RefreshTokenAsync(RefreshTokenDTO refreshToken);
     }
 }
