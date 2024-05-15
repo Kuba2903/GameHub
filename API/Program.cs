@@ -1,4 +1,5 @@
 using Infrastructure;
+using Infrastructure.JwtHelpers;
 using Infrastructure.Services.Implementations;
 using Infrastructure.Services.Interfaces;
 
@@ -14,6 +15,9 @@ builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<IVideoGames, VideoGamesService>();
 builder.Services.AddScoped<IUserAccount, UserAccountService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.Configure<JwtSection>(builder.Configuration.GetSection("JwtSection"));
+var jwtsection = builder.Configuration.GetSection(nameof(JwtSection)).Get<JwtSection>();
 
 var app = builder.Build();
 

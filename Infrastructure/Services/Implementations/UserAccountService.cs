@@ -30,7 +30,7 @@ namespace Infrastructure.Services.Implementations
             jwt = options;
         }
 
-        public async Task CreateAsync(RegisterDTO register)
+        public async Task<User> CreateAsync(RegisterDTO register)
         {
             if(register == null)
                 throw new ArgumentNullException(nameof(register));
@@ -54,24 +54,24 @@ namespace Infrastructure.Services.Implementations
                 await _appDbContext.Users.AddAsync(newUser);
                 await _appDbContext.User_Roles.AddAsync(user_Role);
                 await _appDbContext.SaveChangesAsync();
+                return newUser;
             }
             else
             {
                 throw new Exception("User exists");
             }
 
-
         }
 
-        public async Task LoginAsync(LoginDTO login)
+        public async Task<User> LoginAsync(LoginDTO login)
         {
             if(login == null)
                 throw new ArgumentNullException(nameof(login));
 
             var user = await FindUserByLogin(login.Login);
 
-            if (!BCrypt.Net.BCrypt.Verify(login.Password, user.Password))
-                throw new Exception("password invalid");
+            /*if (!BCrypt.Net.BCrypt.Verify(login.Password, user.Password))
+                throw new Exception("password invalid");*/
 
 
             var getUserRole = await FindUserRole(user.Id);
@@ -92,9 +92,11 @@ namespace Infrastructure.Services.Implementations
             else
             {
                 await _appDbContext.RefreshTokens.AddAsync(
-                    new RefreshTokenInfo { Token = refresh, UserId = checkUser.Id });
+                    new RefreshTokenInfo { Token = refresh, UserId = user.Id });
                 await _appDbContext.SaveChangesAsync();
             }
+
+            return user;
         }
 
 
@@ -125,7 +127,7 @@ namespace Infrastructure.Services.Implementations
         private async Task<User> FindUserByLogin(string login) =>
             await _appDbContext.Users.FirstOrDefaultAsync(x => x.Login.ToLower() == login.ToLower());
 
-        public async Task RefreshTokenAsync(RefreshTokenDTO refreshToken)
+        public async Task<RefreshTokenInfo> RefreshTokenAsync(RefreshTokenDTO refreshToken)
         {
             if (refreshToken == null)
                 throw new ArgumentNullException(nameof(refreshToken));
@@ -157,6 +159,8 @@ namespace Infrastructure.Services.Implementations
             updateRefreshToken.Token = refresh;
 
             await _appDbContext.SaveChangesAsync();
+
+            return updateRefreshToken;
         }
     }
 }

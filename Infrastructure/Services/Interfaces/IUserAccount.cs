@@ -1,6 +1,7 @@
 ﻿
 using API.DTO_s.User_RolesDTO_s;
 using Core.Login_RegisterDTO_s;
+using Infrastructure.Entities.User_Roles_Entities;
 using Infrastructure.User_RolesDTO_s;
 using Microsoft.Win32;
 using System;
@@ -13,10 +14,10 @@ namespace Infrastructure.Services.Interfaces
 {
     public interface IUserAccount
     {
-        Task CreateAsync(RegisterDTO register);
+        Task<User> CreateAsync(RegisterDTO register);
 
-        Task LoginAsync(LoginDTO login);
+        Task<User> LoginAsync(LoginDTO login);
 
-        Task RefreshTokenAsync(RefreshTokenDTO refreshToken);
+        Task<RefreshTokenInfo> RefreshTokenAsync(RefreshTokenDTO refreshToken);
     }
 }
