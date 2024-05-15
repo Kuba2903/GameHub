@@ -34,6 +34,8 @@ namespace Infrastructure
         public DbSet<Role> Roles { get; set; }
         public DbSet<User_Role> User_Roles { get; set; }
 
+        public DbSet<RefreshTokenInfo> RefreshTokens { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //provide your own database con string
