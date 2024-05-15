@@ -1,6 +1,5 @@
 ﻿using API.DTO_s.User_RolesDTO_s;
 using Infrastructure.Entities.User_Roles_Entities;
-using Infrastructure.JwtHelpers;
 using Infrastructure.Migrations;
 using Infrastructure.Services.Interfaces;
 using Infrastructure.User_RolesDTO_s;
@@ -15,6 +14,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Infrastructure.JwtHelpers;
 
 namespace Infrastructure.Services.Implementations
 {
