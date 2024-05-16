@@ -40,7 +40,7 @@ namespace API.Controllers
 
             var token = await _service.LoginAsync(dto);
 
-            return Ok(token); //returns token if user successfully login
+            return Ok(new {Token = token }); //returns token if user successfully login
         }
 
 

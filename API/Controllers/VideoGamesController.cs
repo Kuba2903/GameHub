@@ -4,6 +4,7 @@ using AutoMapper;
 using Infrastructure.Entities;
 using Infrastructure.Services.Implementations;
 using Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,6 @@ namespace API.Controllers
 
         ///GET ENDPOINTS
         #region
-
         [HttpGet]
         [Route("getGames")]
 

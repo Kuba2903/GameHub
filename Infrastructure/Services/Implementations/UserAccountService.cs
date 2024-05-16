@@ -44,6 +44,8 @@ namespace Infrastructure.Services.Implementations
                     Login = register.Login,
                     Password = BCrypt.Net.BCrypt.HashPassword(register.Password)
                 };
+                await _appDbContext.Users.AddAsync(newUser);
+                await _appDbContext.SaveChangesAsync();
 
                 User_Role user_Role = new User_Role()
                 {
@@ -51,7 +53,7 @@ namespace Infrastructure.Services.Implementations
                     RoleId = 2 //adds user role
                 };
 
-                await _appDbContext.Users.AddAsync(newUser);
+                
                 await _appDbContext.User_Roles.AddAsync(user_Role);
                 await _appDbContext.SaveChangesAsync();
             }
