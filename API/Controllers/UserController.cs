@@ -26,9 +26,9 @@ namespace API.Controllers
         {
             if (dto == null) return BadRequest("dto cannot be null");
 
-            var user = await _service.CreateAsync(dto);
+            await _service.CreateAsync(dto);
 
-            return Ok(user);
+            return Created();
         }
 
         [HttpPost]
@@ -38,9 +38,9 @@ namespace API.Controllers
         {
             if (dto == null) return BadRequest("dto cannot be null");
 
-            var user = await _service.LoginAsync(dto);
+            var token = await _service.LoginAsync(dto);
 
-            return Ok(user);
+            return Ok(token); //returns token if user successfully login
         }
 
 
@@ -53,7 +53,7 @@ namespace API.Controllers
 
             var token = await _service.RefreshTokenAsync(dto);
 
-            return Ok(token);
+            return Ok(token.Token);
         }
     }
 }

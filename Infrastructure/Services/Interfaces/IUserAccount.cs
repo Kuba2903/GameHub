@@ -14,9 +14,9 @@ namespace Infrastructure.Services.Interfaces
 {
     public interface IUserAccount
     {
-        Task<User> CreateAsync(RegisterDTO register);
+        Task CreateAsync(RegisterDTO register);
 
-        Task<User> LoginAsync(LoginDTO login);
+        Task<string> LoginAsync(LoginDTO login);
 
         Task<RefreshTokenInfo> RefreshTokenAsync(RefreshTokenDTO refreshToken);
     }

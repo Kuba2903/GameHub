@@ -30,7 +30,7 @@ namespace Infrastructure.Services.Implementations
             jwt = options;
         }
 
-        public async Task<User> CreateAsync(RegisterDTO register)
+        public async Task CreateAsync(RegisterDTO register)
         {
             if(register == null)
                 throw new ArgumentNullException(nameof(register));
@@ -54,7 +54,6 @@ namespace Infrastructure.Services.Implementations
                 await _appDbContext.Users.AddAsync(newUser);
                 await _appDbContext.User_Roles.AddAsync(user_Role);
                 await _appDbContext.SaveChangesAsync();
-                return newUser;
             }
             else
             {
@@ -63,7 +62,7 @@ namespace Infrastructure.Services.Implementations
 
         }
 
-        public async Task<User> LoginAsync(LoginDTO login)
+        public async Task<string> LoginAsync(LoginDTO login)
         {
             if(login == null)
                 throw new ArgumentNullException(nameof(login));
@@ -88,6 +87,7 @@ namespace Infrastructure.Services.Implementations
             {
                 checkUser.Token = refresh;
                 await _appDbContext.SaveChangesAsync();
+                return checkUser.Token;
             }
             else
             {
@@ -96,7 +96,7 @@ namespace Infrastructure.Services.Implementations
                 await _appDbContext.SaveChangesAsync();
             }
 
-            return user;
+            return token;
         }
 
 
