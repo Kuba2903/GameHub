@@ -18,45 +18,62 @@ namespace Tests
         {
             _app = app;
             _client = app.CreateClient();
+        }
 
-            using(var scope = app.Services.CreateScope())
+        private async Task SeedData(AppDbContext context)
+        {
+            var genres = new HashSet<Genre>
             {
-                _context = scope.ServiceProvider.GetService<AppDbContext>();
+                new Genre(){ Id = 1, Genre_Name = "RPG" },
+                new Genre(){ Id = 2, Genre_Name = "RTS" }
+            };
 
-                var genres = new HashSet<Genre>
-                {
-                    new Genre(){Id = 1 ,Genre_Name = "RPG" },
-                    new Genre(){Id = 2 ,Genre_Name = "RTS" }
-                };
+            var games = new HashSet<Game>
+            {
+                new Game(){ Id = 1, GenreId = 1, Game_Name = "The Witcher" },
+                new Game(){ Id = 2, GenreId = 2, Game_Name = "Warcraft" }
+            };
 
-                var games = new HashSet<Game>
-                {
-                    new Game(){Id = 1 , GenreId = 1, Game_Name = "The Witcher" },
-                    new Game(){Id = 2 ,GenreId = 2, Game_Name = "Warcraft" }
-                };
+            var publishers = new HashSet<Publisher>
+            {
+                new Publisher(){ Id = 1, Publisher_Name = "EA Sports" },
+                new Publisher(){ Id = 2, Publisher_Name = "CD Projekt Red" }
+            };
 
-                var publishers = new HashSet<Publisher>
-                {
-                    new Publisher(){Id = 1, Publisher_Name = "EA Sports" },
-                    new Publisher(){Id = 2, Publisher_Name = "CD Projekt Red" }
-                };
+            var game_publishers = new HashSet<Game_Publisher>
+            {
+                new Game_Publisher(){ Id = 1, GameId = 1, PublisherId = 2 },
+                new Game_Publisher(){ Id = 2, GameId = 2, PublisherId = 1 } // corrected the PublisherId to match seeded data
+            };
 
-                var game_publishers = new HashSet<Game_Publisher>
-                {
-                    new Game_Publisher() { Id = 1, GameId = 1, PublisherId =  2},
-                    new Game_Publisher() {Id = 2, GameId = 2, PublisherId = 3}
-                };
+            context.Genres.AddRange(genres);
+            context.Games.AddRange(games);
+            context.Publishers.AddRange(publishers);
+            context.Game_Publishers.AddRange(game_publishers);
+            await context.SaveChangesAsync();
+        }
 
-                _context.SaveChanges();
-            }
+        private async Task ClearData(AppDbContext context)
+        {
+            context.Genres.RemoveRange(context.Genres);
+            context.Games.RemoveRange(context.Games);
+            context.Publishers.RemoveRange(context.Publishers);
+            context.Game_Publishers.RemoveRange(context.Game_Publishers);
+            await context.SaveChangesAsync();
         }
 
         [Fact]
-
         public async Task GetShouldReturnOkStatus()
         {
+            using (var scope = _app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await ClearData(context);
+                await SeedData(context);
+            }
+
             var result = await _client.GetAsync("https://localhost:7155/api/VideoGames/getGames?pageSize=5&pageNumber=1");
-       
+
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
 
@@ -64,8 +81,16 @@ namespace Tests
 
         public async Task CreateObject()
         {
+            using (var scope = _app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await ClearData(context);
+                await SeedData(context);
+            }
+
             var genreName = "Action";
-            var jsonContent = new StringContent($"{{\"genre_Name\": \"{genreName}\"}}", Encoding.UTF8, "application/json");
+            var Id = 3;
+            var jsonContent = new StringContent($"{{\"Id\": \"{Id}\", \"genre_Name\": \"{genreName}\"}}", Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("https://localhost:7155/api/VideoGames/addGenre", jsonContent);
 
@@ -76,10 +101,19 @@ namespace Tests
 
         public async Task PutGames()
         {
+
+            using (var scope = _app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await ClearData(context);
+                await SeedData(context);
+            }
+
             var gameName = "Fifa";
             var genreId = 2;
+            var Id = 1;
 
-            var jsonContent = new StringContent($"{{\"Game_Name\": \"{gameName}\", \"GenreId\": \"{genreId}\"}}", Encoding.UTF8, "application/json");
+            var jsonContent = new StringContent($"{{\"Game_Name\": \"{gameName}\", \"GenreId\": \"{genreId}\", \"Id\": \"{Id}\"}}", Encoding.UTF8, "application/json");
 
             var response = await _client.PutAsync($"https://localhost:7155/api/VideoGames/updateGame", jsonContent);
         
@@ -88,14 +122,41 @@ namespace Tests
         }
 
         [Fact]
-
-        public async Task DeletePublisher()
+        public async Task GamesCount()
         {
-            int id = 1;
+            using (var scope = _app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await ClearData(context);
+                await SeedData(context);
+            }
 
+            var response = await _client.GetAsync("https://localhost:7155/api/VideoGames/getGames?pageSize=5&pageNumber=1");
+            response.EnsureSuccessStatusCode();
+
+            var games = await response.Content.ReadFromJsonAsync<List<Game>>();
+
+            Assert.Equal(2, games.Count);
+        }
+
+
+        [Fact]
+
+        public async Task DeletePublishers()
+        {
+            using (var scope = _app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await ClearData(context);
+                await SeedData(context);
+            }
+            int id = 2;
             var response = await _client.DeleteAsync($"https://localhost:7155/api/VideoGames/deletePublishers?id={id}");
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.EnsureSuccessStatusCode();
+
+            Assert.True(response.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.OK,response.StatusCode);
         }
     }
 }
