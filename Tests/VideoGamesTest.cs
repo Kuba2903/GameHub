@@ -1,7 +1,10 @@
 ﻿using Infrastructure;
 using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
+using API;
+using System.Net;
+using System.Text;
+using API.DTO_s;
 
 namespace Tests
 {
@@ -46,6 +49,53 @@ namespace Tests
 
                 _context.SaveChanges();
             }
+        }
+
+        [Fact]
+
+        public async Task GetShouldReturnOkStatus()
+        {
+            var result = await _client.GetAsync("https://localhost:7155/api/VideoGames/getGames?pageSize=5&pageNumber=1");
+       
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+        }
+
+        [Fact]
+
+        public async Task CreateObject()
+        {
+            var genreName = "Action";
+            var jsonContent = new StringContent($"{{\"genre_Name\": \"{genreName}\"}}", Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync("https://localhost:7155/api/VideoGames/addGenre", jsonContent);
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+
+        public async Task PutGames()
+        {
+            var gameName = "Fifa";
+            var genreId = 2;
+
+            var jsonContent = new StringContent($"{{\"Game_Name\": \"{gameName}\", \"GenreId\": \"{genreId}\"}}", Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"https://localhost:7155/api/VideoGames/updateGame", jsonContent);
+        
+
+            Assert.Equal(HttpStatusCode.OK,response.StatusCode);
+        }
+
+        [Fact]
+
+        public async Task DeletePublisher()
+        {
+            int id = 1;
+
+            var response = await _client.DeleteAsync($"https://localhost:7155/api/VideoGames/deletePublishers?id={id}");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
 }
