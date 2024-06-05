@@ -6,20 +6,20 @@
                     <h1 class="text-center">Create your account</h1>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form asp-action="CreateAccount" method="post">
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" placeholder="Enter your username">
+                            <input type="text" class="form-control" id="username" name="Login" placeholder="Enter your username">
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                            <input type="password" class="form-control" id="password" name="Password" placeholder="Enter your password">
                         </div>
                         <div class="form-group">
                             <label for="password">Confirm password</label>
-                            <input type="password" class="form-control" id="confirmpassword" placeholder="Confirm password">
+                            <input type="password" class="form-control" id="confirmpassword" name="ConfirmPassword" placeholder="Confirm password">
                         </div>
-                        <button asp-action="Index" type="submit" class="btn btn-primary btn-block">Register</button>
+                        <button asp-action="CreateAccount" type="submit" class="btn btn-primary btn-block">Register</button>
                     </form>
                 </div>
             </div>

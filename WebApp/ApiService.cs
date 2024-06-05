@@ -27,5 +27,18 @@ namespace WebApp
             else
                 return false;
         }
+
+
+        public async Task<bool> RegisterUserAsync(RegisterVm model)
+        {
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("https://localhost:7155/api/User/register", jsonContent);
+
+            if(response.IsSuccessStatusCode)
+                return true;
+            else 
+                return false;
+        }
     }
 }

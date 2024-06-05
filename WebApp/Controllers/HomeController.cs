@@ -32,9 +32,21 @@ namespace WebApp.Controllers
             
         }
 
+        [HttpGet]
         public IActionResult CreateAccount()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAccount(RegisterVm model)
+        {
+            var response = await _apiService.RegisterUserAsync(model);
+
+            if (response && model.Password == model.ConfirmPassword)
+                return RedirectToAction("Index");
+            else
+                return NotFound();
         }
     }
 }
