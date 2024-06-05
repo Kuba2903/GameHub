@@ -14,19 +14,26 @@ namespace WebApp.Controllers
             _apiService = apiService;
         }
 
+
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
+        public IActionResult LoginAccount()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Index(LoginVm model)
+        public async Task<IActionResult> LoginAccount(LoginVm model)
         {
             var response = await _apiService.LoginUserAsync(model);
 
             if (response)
-                return RedirectToAction("CreateAccount");
+                return RedirectToAction("Index");
             else
                 return NotFound();
             
