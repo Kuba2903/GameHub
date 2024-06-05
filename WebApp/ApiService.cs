@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using API.DTO_s.User_RolesDTO_s;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Text;
 using WebApp.Models;
@@ -15,11 +16,16 @@ namespace WebApp
             return JsonConvert.DeserializeObject<List<GameVm>>(response);
         }
 
-        /*public async Task LoginUserAsync(string model)
+        public async Task<bool> LoginUserAsync(LoginVm model)
         {
             var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync("https://localhost:7155/api/User/login", jsonContent);
-        }*/
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+        }
     }
 }
