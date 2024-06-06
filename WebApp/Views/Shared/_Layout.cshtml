@@ -25,7 +25,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CreateAccount">Register</a>
                         </li>
+                        @if (!string.IsNullOrEmpty(ViewBag.name))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Sign_Out">Sign out</a>
+                            </li>
+                        }
                     </ul>
+                    @if (!string.IsNullOrEmpty(ViewBag.name))
+                    {
+                        <span class="navbar-text">
+                            Welcome, @ViewBag.name
+                        </span>
+                    }
                 </div>
             </div>
         </nav>
