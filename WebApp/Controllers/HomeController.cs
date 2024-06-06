@@ -35,7 +35,7 @@ namespace WebApp.Controllers
             if (response)
                 return RedirectToAction("Index");
             else
-                return NotFound();
+                return View(model);
             
         }
 
@@ -53,7 +53,7 @@ namespace WebApp.Controllers
             if (response && model.Password == model.ConfirmPassword)
                 return RedirectToAction("Index");
             else
-                return NotFound();
+                return View(model);
         }
     }
 }
