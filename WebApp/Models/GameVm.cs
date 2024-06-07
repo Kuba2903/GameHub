@@ -8,6 +8,6 @@ namespace WebApp.Models
 
         public string Game_Name { get; set; }
 
-        public int GenreId { get; set; }
+        public string Genre { get; set; }
     }
 }

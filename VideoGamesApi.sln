@@ -15,11 +15,6 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csproj", "{8C009B25-2D02-453D-8AE4-FA0ABC1C38C6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img_s", "img_s", "{0126FE98-750D-47C5-B7F0-A5527A5B6643}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\Downloads\gamepad.png = ..\..\..\Downloads\gamepad.png
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
