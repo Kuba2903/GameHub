@@ -59,11 +59,11 @@ namespace WebApp.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Sign_Out()
         {
             ViewBag.name = null;
-            return RedirectToAction("Index");
+            return View("Index");
         }
     }
 }
