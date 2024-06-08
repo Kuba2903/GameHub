@@ -1,4 +1,5 @@
 ﻿using Infrastructure;
+using Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -22,18 +23,51 @@ namespace WebApp.Controllers
         {
             var items = await _appDbContext.Games.ToListAsync();
             var genres = await _appDbContext.Genres.ToListAsync();
+            var publishers = await _appDbContext.Publishers.ToListAsync();
+            var game_publisher = await _appDbContext.Game_Publishers.ToListAsync();
 
-
-            var query = items.Join(
+            var query = items.GroupJoin(
                 genres,
                 game => game.GenreId,
                 genre => genre.Id,
-                (game, genre) => new GameVm
+                (game, genreGroup) => new
                 {
-                    Id = game.Id,
-                     Game_Name = game.Game_Name,
-                      Genre = genre.Genre_Name,
-                }).ToList();
+                    Game = game,
+                    GenreName = genreGroup.FirstOrDefault()?.Genre_Name
+                }
+                )
+                .Join(
+                    game_publisher,
+                    g => g.Game.Id,
+                    gp => gp.GameId,
+                    (g, gp) => new
+                    {
+                        g.Game,
+                        g.GenreName,
+                        gp.PublisherId,
+                        GamePublisherId = gp.Id
+                    }
+                )
+                .Join(
+                    publishers,
+                    gp => gp.PublisherId,
+                    p => p.Id,
+                    (gp, p) => new
+                    {
+                        gp.Game,
+                        gp.GenreName,
+                        PublisherName = p.Publisher_Name,
+                        gp.GamePublisherId
+                    }
+                )
+                .Select(x => new GameVm
+                {
+                     Id = x.Game.Id,
+                     Game_Name = x.Game.Game_Name,
+                     Genre = x.GenreName,
+                     Publisher = x.PublisherName
+                })
+                .ToList();
 
             return View(query);
         }

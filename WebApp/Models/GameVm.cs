@@ -8,6 +8,8 @@ namespace WebApp.Models
 
         public string Game_Name { get; set; }
 
-        public string Genre { get; set; }
+        public string? Genre { get; set; }
+
+        public string Publisher { get; set; }
     }
 }
