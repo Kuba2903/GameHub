@@ -3,7 +3,7 @@
 <table class="table table-striped table-bordered">
     <thead class="thead-dark">
         <tr>
-            <th>Id</th>
+            <th>Tools</th>
             <th>Game name</th>
             <th>Genre</th>
             <th>Publisher</th>
@@ -13,7 +13,17 @@
         @foreach (var game in Model)
         {
             <tr>
-                <td>@game.Id</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = game.Id })" class="btn btn-primary btn-sm" title="Edit">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="@Url.Action("Details", new { id = game.Id })" class="btn btn-info btn-sm" title="Details">
+                        <i class="bi bi-info-circle"></i>
+                    </a>
+                    <a href="@Url.Action("Delete", new { id = game.Id })" class="btn btn-danger btn-sm" title="Delete">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
                 <td>@game.Game_Name</td>
                 <td>@game.Genre</td>
                 <td>@game.Publisher</td>
