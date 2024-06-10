@@ -61,11 +61,13 @@ namespace Infrastructure
                 new Genre() { Id = 5 ,Genre_Name = "Simulators"});
 
             modelBuilder.Entity<Game>()
-                .HasData(new Game() {Id = 1 , GenreId = 1, Game_Name = "The Witcher" },
-                new Game() { Id = 2 ,GenreId = 2, Game_Name = "Warcraft" },
-                new Game() { Id = 3 ,GenreId = 3, Game_Name = "Call of Duty" },
-                new Game() { Id = 4 ,GenreId = 4, Game_Name = "Fifa" },
-                new Game() { Id = 5 ,GenreId = 5, Game_Name = "Farming Simulator" });
+                .HasData(new Game() {Id = 1 , GenreId = 1, Game_Name = "The Witcher",
+                Description = "\"The Witcher\" is an action role-playing game developed by CD Projekt Red, based on the book series by Andrzej Sapkowski. Set in a richly detailed, medieval fantasy world, players assume the role of Geralt of Rivia, a skilled monster hunter known as a Witcher. The game is renowned for its mature narrative, complex characters, and moral ambiguity, offering players a deeply immersive experience. In \"The Witcher,\" Geralt navigates through a world filled with political intrigue, supernatural threats, and moral dilemmas. Players make choices that influence the story and its outcome, engaging in combat with a variety of weapons and magical abilities. The game's open-world design allows for extensive exploration, with numerous side quests and activities to pursue alongside the main storyline"
+                },
+                new Game() { Id = 2 ,GenreId = 2, Game_Name = "Warcraft", Description = "\"Warcraft\" is a high-fantasy, real-time strategy game series developed and published by Blizzard Entertainment. Set in the expansive and lore-rich world of Azeroth, the game focuses on the epic conflict between various factions, primarily the Alliance and the Horde, as well as other races and factions with their own agendas." },
+                new Game() { Id = 3 ,GenreId = 3, Game_Name = "Call of Duty", Description = "\"Call of Duty\" is a highly popular first-person shooter (FPS) video game series developed and published by Activision. Initially set in World War II, the franchise has since expanded to cover various historical periods, modern-day conflicts, and futuristic settings. Known for its intense gameplay, cinematic storytelling, and competitive multiplayer modes, \"Call of Duty\" has become one of the best-selling game franchises of all time." },
+                new Game() { Id = 4 ,GenreId = 4, Game_Name = "Fifa", Description = "\"FIFA\" is a long-standing and immensely popular series of football (soccer) simulation video games developed and published by Electronic Arts (EA) under the EA Sports label. Known for its realistic gameplay, extensive licensing, and comprehensive game modes, \"FIFA\" has become the go-to title for football fans around the world." },
+                new Game() { Id = 5 ,GenreId = 5, Game_Name = "Farming Simulator", Description = "\"Farming Simulator\" is a series of simulation video games developed by Giants Software. It offers players an immersive and detailed experience of managing a modern farm. The game emphasizes realistic farming activities, including cultivating crops, raising livestock, and managing machinery. It has gained a dedicated fanbase for its authentic representation of agricultural life and its comprehensive gameplay mechanics." });
 
             modelBuilder.Entity<Publisher>()
                 .HasData(new Publisher() { Id = 1, Publisher_Name = "EA Sports" },

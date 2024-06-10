@@ -17,6 +17,8 @@ namespace Infrastructure.Entities
 
         public int GenreId { get; set; }
 
+        public string Description { get; set; }
+
         [ForeignKey("GenreId")]
         public Genre Genre { get; set; }
 

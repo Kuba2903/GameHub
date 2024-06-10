@@ -7,6 +7,7 @@ namespace API.Add_DTO_s
         [StringLength(200)]
         public string Game_Name { get; set; }
 
+        public string Description { get; set; }
         public int GenreId { get; set; }
     }
 }
