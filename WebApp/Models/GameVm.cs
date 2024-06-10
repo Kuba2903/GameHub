@@ -14,5 +14,6 @@ namespace WebApp.Models
 
         public int ReleaseYear { get; set; }
         public string Platform { get; set; }
+        public string Description { get; set; }
     }
 }

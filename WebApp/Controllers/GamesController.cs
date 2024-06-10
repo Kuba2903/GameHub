@@ -86,6 +86,7 @@ namespace WebApp.Controllers
                 {
                     Id = item.Id,
                     Game_Name = item.Game_Name,
+                    Description = item.Description,
                     ReleaseYear = x.ReleaseYear,
                     Platform = x.Platform.Platform_Name
                 }).ToList();
