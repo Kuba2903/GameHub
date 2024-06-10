@@ -71,5 +71,31 @@ namespace WebApp.Controllers
 
             return View(query);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var item = await _appDbContext.Games.FirstOrDefaultAsync(x => x.Id == id);
+            
+            if(item != null)
+            { 
+                var platforms = _appDbContext.Game_Platforms.Where(x => x.Game_PublisherId == id);
+                
+                var query = platforms.Select(x => new GameVm
+                {
+                    Id = item.Id,
+                    Game_Name = item.Game_Name,
+                    ReleaseYear = x.ReleaseYear,
+                    Platform = x.Platform.Platform_Name
+                }).ToList();
+
+                return View(query);
+            }
+            else
+            {
+                return View();
+            }
+        }
     }
 }

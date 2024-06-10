@@ -11,5 +11,8 @@ namespace WebApp.Models
         public string? Genre { get; set; }
 
         public string Publisher { get; set; }
+
+        public int ReleaseYear { get; set; }
+        public string Platform { get; set; }
     }
 }
