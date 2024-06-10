@@ -137,5 +137,37 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var game_item = await _appDbContext.Games
+                .Where(x => x.Id == id)
+                .Include(x => x.Genre)
+                .Include(x => x.Games_Publishers)
+                    .ThenInclude(gp => gp.Publisher)
+                .Include(x => x.Games_Publishers)
+                    .ThenInclude(y => y.Game_Platforms)
+                    .ThenInclude(p => p.Platform)
+                .FirstOrDefaultAsync();
+
+            if (game_item != null)
+            {
+                GameVm model = new GameVm
+                {
+                    Id = game_item.Id,
+                    Game_Name = game_item.Game_Name,
+                    Description = game_item.Description,
+                    Genre = game_item.Genre?.Genre_Name,
+                    Publisher = game_item.Games_Publishers?.FirstOrDefault()?.Publisher?.Publisher_Name,
+                    Platform = game_item.Games_Publishers?.FirstOrDefault()?.Game_Platforms?.FirstOrDefault()?.Platform?.Platform_Name,
+                    ReleaseYear = (int)game_item.Games_Publishers?.FirstOrDefault()?.Game_Platforms.FirstOrDefault()?.ReleaseYear // You might need to modify this depending on how you get the release year
+                };
+                return View(model);
+            }
+
+            return View();
+        }
     }
 }
