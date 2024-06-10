@@ -98,5 +98,44 @@ namespace WebApp.Controllers
                 return View();
             }
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = await _appDbContext.Games.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(item != null)
+            {
+                GameVm model = new GameVm
+                {
+                    Id = item.Id,
+                    Game_Name = item.Game_Name
+                };
+
+                return View(model);
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirm(int id)
+        {
+            var item = await _appDbContext.Games.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(item != null)
+            {
+                _appDbContext.Games.Remove(item);
+                await _appDbContext.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
