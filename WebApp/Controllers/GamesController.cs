@@ -95,18 +95,6 @@ namespace WebApp.Controllers
                     }).ToList()
                 };
 
-                /*var query = platforms.Select(x => new GameVm
-                {
-                    Id = item.Id,
-                    Game_Name = item.Game_Name,
-                    Description = item.Description,
-                    Platforms = platforms.Select(x => new PlatformsVm
-                    {
-                        Name = x.Platform.Platform_Name,
-                        ReleaseYear = x.ReleaseYear
-                    }).ToList()
-                });*/
-
                 return View(query);
             }
             else
@@ -191,6 +179,37 @@ namespace WebApp.Controllers
             }
 
             return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(GameVm model)
+        {
+            var entity = await _appDbContext.Games.FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            if(ModelState.IsValid && entity != null)
+            {
+                var genre = await _appDbContext.Genres
+                .FirstOrDefaultAsync(g => g.Genre_Name == model.Genre);
+
+                var game_publisher = await _appDbContext.Game_Publishers
+                    .FirstOrDefaultAsync(x => x.GameId == model.Id);
+
+                entity.Game_Name = model.Game_Name;
+                entity.Description = model.Description;
+                entity.Genre.Genre_Name = genre.Genre_Name;
+                entity.GenreId = genre.Id;
+                if (!entity.Games_Publishers.Contains(game_publisher))
+                    entity.Games_Publishers.Add(game_publisher);
+                
+                _appDbContext.Games.Update(entity);
+                await _appDbContext.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
         }
     }
 }
