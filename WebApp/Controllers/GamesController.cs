@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -12,11 +13,10 @@ namespace WebApp.Controllers
     public class GamesController : Controller
     {
 
-        private readonly ApiService _apiService;
+        //private readonly ApiService _apiService;
         private readonly AppDbContext _appDbContext;
-        public GamesController(ApiService apiService, AppDbContext dbContext)
+        public GamesController(AppDbContext dbContext)
         {
-            _apiService = apiService;
             _appDbContext = dbContext;
         }
 
@@ -156,6 +156,17 @@ namespace WebApp.Controllers
                     .ThenInclude(p => p.Platform)
                 .FirstOrDefaultAsync();
 
+            ///Create Select lists
+            
+            var genres = await _appDbContext.Genres.OrderBy(x => x.Genre_Name).Select(x => x.Genre_Name).Distinct().ToListAsync();
+            var publishers = await _appDbContext.Publishers.OrderBy(x => x.Publisher_Name).Select(x => x.Publisher_Name).Distinct().ToListAsync();
+            SelectList genres_Selectlist = new SelectList(genres);
+            SelectList publishers_Selectlist = new SelectList(publishers);
+            ViewBag.Genres = genres_Selectlist;
+            ViewBag.Publishers = publishers_Selectlist;
+
+            ///
+
             if (game_item != null)
             {
                 var game_publishers = game_item.Games_Publishers.FirstOrDefault();
@@ -214,7 +225,7 @@ namespace WebApp.Controllers
                     entity.Games_Publishers.Add(game_publisher);
                 
                 var existingPublisher = entity.Games_Publishers.FirstOrDefault();
-                if (existingPublisher == null)
+                if (existingPublisher == null) //if publisher doesn't exists in database, add it
                 {
                     existingPublisher = new Game_Publisher
                     {
@@ -233,13 +244,13 @@ namespace WebApp.Controllers
                 foreach (var platformVm in model.Platforms)
                 {
                     var platform = await _appDbContext.Platforms.FirstOrDefaultAsync(p => p.Platform_Name == platformVm.Name);
-                    if (platform == null)
+                    if (platform == null) //if platform doesn't exists in database - add it
                     {
                         platform = new Platform { Platform_Name = platformVm.Name };
                         _appDbContext.Platforms.Add(platform);
                         await _appDbContext.SaveChangesAsync();
                     }
-
+                    //add the platform to the list
                     existingPublisher.Game_Platforms.Add(new Game_Platform
                     {
                         Game_PublisherId = existingPublisher.Id,

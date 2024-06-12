@@ -9,13 +9,13 @@
 
     <div class="form-group">
         <label asp-for="Genre"></label>
-        <input asp-for="Genre" class="form-control" />
+        <select asp-for="Genre" class="form-control" asp-items="ViewBag.Genres"></select>
         <span asp-validation-for="Genre" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Publisher"></label>
-        <input asp-for="Publisher" class="form-control" />
+        <select asp-for="Publisher" class="form-control" asp-items="ViewBag.Publishers" ></select>
         <span asp-validation-for="Publisher" class="text-danger"></span>
     </div>
 
@@ -35,6 +35,9 @@
                         <input name="Platforms[@i].ReleaseYear" class="form-control" value="@Model.Platforms[i].ReleaseYear" />
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger remove-platform">Remove</button>
+                </div>
             </div>
         }
     </div>
@@ -53,6 +56,17 @@
 @section scripts {
     <script>
         var platformIndex = @Model.Platforms.Count;
+
+        function updatePlatformIndices() {
+            $('.platform').each(function (index) {
+                $(this).find('input[name^="Platforms"]').each(function () {
+                    var name = $(this).attr('name');
+                    var newName = name.replace(/\d+/, index);
+                    $(this).attr('name', newName);
+                });
+            });
+        }
+
         $('#addPlatform').click(function () {
             var platformHtml = '<div class="row platform">' +
                 '<div class="col-md-6">' +
@@ -70,6 +84,12 @@
                 '</div>';
             $('.platforms').append(platformHtml);
             platformIndex++;
+        });
+
+        $(document).on('click', '.remove-platform', function () {
+            $(this).closest('.platform').remove();
+            updatePlatformIndices();
+            platformIndex--;
         });
     </script>
 }
