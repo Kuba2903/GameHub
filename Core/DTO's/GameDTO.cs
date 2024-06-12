@@ -11,5 +11,7 @@ namespace API.DTO_s
         public string Game_Name { get; set; }
 
         public int GenreId { get; set; }
+
+        public string Description { get; set; }
     }
 }

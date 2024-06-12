@@ -1,0 +1,95 @@
+﻿@model GameVm
+
+<form method="post" asp-action="Edit">
+    <div class="form-group">
+        <label asp-for="Game_Name"></label>
+        <input asp-for="Game_Name" class="form-control" />
+        <span asp-validation-for="Game_Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Genre"></label>
+        <select asp-for="Genre" class="form-control" asp-items="ViewBag.Genres"></select>
+        <span asp-validation-for="Genre" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Publisher"></label>
+        <select asp-for="Publisher" class="form-control" asp-items="ViewBag.Publishers" ></select>
+        <span asp-validation-for="Publisher" class="text-danger"></span>
+    </div>
+
+    <div class="platforms">
+        @for (int i = 0; i < Model.Platforms.Count; i++)
+        {
+            <div class="row platform">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Platform</label>
+                        <input name="Platforms[@i].Name" class="form-control" value="@Model.Platforms[i].Name" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Release Year</label>
+                        <input name="Platforms[@i].ReleaseYear" class="form-control" value="@Model.Platforms[i].ReleaseYear" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger remove-platform">Remove</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <button type="button" class="btn btn-primary" id="addPlatform">Add Platform</button>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section scripts {
+    <script>
+        var platformIndex = @Model.Platforms.Count;
+
+        function updatePlatformIndices() {
+            $('.platform').each(function (index) {
+                $(this).find('input[name^="Platforms"]').each(function () {
+                    var name = $(this).attr('name');
+                    var newName = name.replace(/\d+/, index);
+                    $(this).attr('name', newName);
+                });
+            });
+        }
+
+        $('#addPlatform').click(function () {
+            var platformHtml = '<div class="row platform">' +
+                '<div class="col-md-6">' +
+                '<div class="form-group">' +
+                '<label>Platform</label>' +
+                '<input name="Platforms[' + platformIndex + '].Name" class="form-control" />' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-6">' +
+                '<div class="form-group">' +
+                '<label>Release Year</label>' +
+                '<input name="Platforms[' + platformIndex + '].ReleaseYear" class="form-control" />' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            $('.platforms').append(platformHtml);
+            platformIndex++;
+        });
+
+        $(document).on('click', '.remove-platform', function () {
+            $(this).closest('.platform').remove();
+            updatePlatformIndices();
+            platformIndex--;
+        });
+    </script>
+}

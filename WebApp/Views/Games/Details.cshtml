@@ -1,0 +1,40 @@
+﻿@model GameVm
+
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2>@Model.Game_Name</h2>
+            <p class="text-muted">@Model.Description</p>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-8">
+            @foreach (var game in Model.Platforms)
+            {
+                <div class="mb-3">
+                    <h5>Release Year: @game.ReleaseYear</h5>
+                    <p>Platform: @game.Name</p>
+                </div>
+            }
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    Tools
+                </div>
+                <div class="card-body">
+                    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary btn-sm mb-2" title="Edit">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="@Url.Action("Delete", new { id = Model.Id })" class="btn btn-danger btn-sm mb-2" title="Delete">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm" title="Back to List">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
