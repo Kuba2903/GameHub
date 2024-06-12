@@ -185,15 +185,26 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(GameVm model)
         {
-            var entity = await _appDbContext.Games.FirstOrDefaultAsync(x => x.Id == model.Id);
+            var entity = await _appDbContext.Games
+                .Include(x => x.Genre)
+                .Include(x => x.Games_Publishers)
+                    .ThenInclude(gp => gp.Game_Platforms)
+                    .ThenInclude(gp => gp.Platform)
+                .Include(x => x.Games_Publishers)
+                    .ThenInclude(gp => gp.Publisher)
+                .FirstOrDefaultAsync(x => x.Id == model.Id);
 
-            if(ModelState.IsValid && entity != null)
+            if (ModelState.IsValid && entity != null)
             {
                 var genre = await _appDbContext.Genres
                 .FirstOrDefaultAsync(g => g.Genre_Name == model.Genre);
 
                 var game_publisher = await _appDbContext.Game_Publishers
                     .FirstOrDefaultAsync(x => x.GameId == model.Id);
+
+                var game_platform = await _appDbContext.Game_Platforms
+                    .FirstOrDefaultAsync(x => x.Game_PublisherId == game_publisher.Id);
+
 
                 entity.Game_Name = model.Game_Name;
                 entity.Description = model.Description;
@@ -202,6 +213,41 @@ namespace WebApp.Controllers
                 if (!entity.Games_Publishers.Contains(game_publisher))
                     entity.Games_Publishers.Add(game_publisher);
                 
+                var existingPublisher = entity.Games_Publishers.FirstOrDefault();
+                if (existingPublisher == null)
+                {
+                    existingPublisher = new Game_Publisher
+                    {
+                        Publisher = new Publisher { Publisher_Name = model.Publisher },
+                        GameId = model.Id
+                    };
+                    entity.Games_Publishers.Add(existingPublisher);
+                }
+                else
+                {
+                    existingPublisher.Publisher.Publisher_Name = model.Publisher; 
+                }
+
+                existingPublisher.Game_Platforms.Clear();
+
+                foreach (var platformVm in model.Platforms)
+                {
+                    var platform = await _appDbContext.Platforms.FirstOrDefaultAsync(p => p.Platform_Name == platformVm.Name);
+                    if (platform == null)
+                    {
+                        platform = new Platform { Platform_Name = platformVm.Name };
+                        _appDbContext.Platforms.Add(platform);
+                        await _appDbContext.SaveChangesAsync();
+                    }
+
+                    existingPublisher.Game_Platforms.Add(new Game_Platform
+                    {
+                        Game_PublisherId = existingPublisher.Id,
+                        PlatformId = platform.Id,
+                        ReleaseYear = platformVm.ReleaseYear
+                    });
+                }
+
                 _appDbContext.Games.Update(entity);
                 await _appDbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
