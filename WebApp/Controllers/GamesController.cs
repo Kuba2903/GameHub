@@ -2,6 +2,7 @@
 using Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using WebApp.Models;
 
@@ -81,15 +82,30 @@ namespace WebApp.Controllers
             if(item != null)
             { 
                 var platforms = _appDbContext.Game_Platforms.Where(x => x.Game_PublisherId == id);
-                
-                var query = platforms.Select(x => new GameVm
+
+                GameVm query = new GameVm()
                 {
                     Id = item.Id,
                     Game_Name = item.Game_Name,
                     Description = item.Description,
-                    ReleaseYear = x.ReleaseYear,
-                    Platform = x.Platform.Platform_Name
-                }).ToList();
+                    Platforms = platforms.Select(x => new PlatformsVm
+                    {
+                        Name = x.Platform.Platform_Name,
+                        ReleaseYear = x.ReleaseYear
+                    }).ToList()
+                };
+
+                /*var query = platforms.Select(x => new GameVm
+                {
+                    Id = item.Id,
+                    Game_Name = item.Game_Name,
+                    Description = item.Description,
+                    Platforms = platforms.Select(x => new PlatformsVm
+                    {
+                        Name = x.Platform.Platform_Name,
+                        ReleaseYear = x.ReleaseYear
+                    }).ToList()
+                });*/
 
                 return View(query);
             }
@@ -154,6 +170,10 @@ namespace WebApp.Controllers
 
             if (game_item != null)
             {
+                var game_publishers = game_item.Games_Publishers.FirstOrDefault();
+
+                var platforms = game_publishers.Game_Platforms;
+
                 GameVm model = new GameVm
                 {
                     Id = game_item.Id,
@@ -161,8 +181,11 @@ namespace WebApp.Controllers
                     Description = game_item.Description,
                     Genre = game_item.Genre?.Genre_Name,
                     Publisher = game_item.Games_Publishers?.FirstOrDefault()?.Publisher?.Publisher_Name,
-                    Platform = game_item.Games_Publishers?.FirstOrDefault()?.Game_Platforms?.FirstOrDefault()?.Platform?.Platform_Name,
-                    ReleaseYear = (int)game_item.Games_Publishers?.FirstOrDefault()?.Game_Platforms.FirstOrDefault()?.ReleaseYear // You might need to modify this depending on how you get the release year
+                    Platforms = platforms.Select(x => new PlatformsVm
+                    {
+                        Name = x.Platform.Platform_Name,
+                        ReleaseYear = x.ReleaseYear
+                    }).ToList()
                 };
                 return View(model);
             }

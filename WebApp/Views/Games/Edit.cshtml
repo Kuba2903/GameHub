@@ -19,18 +19,24 @@
         <span asp-validation-for="Publisher" class="text-danger"></span>
     </div>
 
-    <!-- Add fields for multiple platforms -->
     <div class="platforms">
-        <div class="platform">
-            <div class="form-group">
-                <label>Platform</label>
-                <input name="Platforms[0].Name" class="form-control" />
+        @for (int i = 0; i < Model.Platforms.Count; i++)
+        {
+            <div class="row platform">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Platform</label>
+                        <input name="Platforms[@i].Name" class="form-control" value="@Model.Platforms[i].Name" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Release Year</label>
+                        <input name="Platforms[@i].ReleaseYear" class="form-control" value="@Model.Platforms[i].ReleaseYear" />
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Release Year</label>
-                <input name="Platforms[0].ReleaseYear" class="form-control" />
-            </div>
-        </div>
+        }
     </div>
 
     <button type="button" class="btn btn-primary" id="addPlatform">Add Platform</button>
@@ -46,16 +52,20 @@
 
 @section scripts {
     <script>
-        var platformIndex = 1;
+        var platformIndex = @Model.Platforms.Count;
         $('#addPlatform').click(function () {
-            var platformHtml = '<div class="platform">' +
+            var platformHtml = '<div class="row platform">' +
+                '<div class="col-md-6">' +
                 '<div class="form-group">' +
                 '<label>Platform</label>' +
                 '<input name="Platforms[' + platformIndex + '].Name" class="form-control" />' +
                 '</div>' +
+                '</div>' +
+                '<div class="col-md-6">' +
                 '<div class="form-group">' +
                 '<label>Release Year</label>' +
                 '<input name="Platforms[' + platformIndex + '].ReleaseYear" class="form-control" />' +
+                '</div>' +
                 '</div>' +
                 '</div>';
             $('.platforms').append(platformHtml);
