@@ -19,7 +19,7 @@ namespace WebApp.Controllers
         {
             _appDbContext = dbContext;
         }
-
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var items = await _appDbContext.Games.ToListAsync();
@@ -63,14 +63,85 @@ namespace WebApp.Controllers
                 )
                 .Select(x => new GameVm
                 {
-                     Id = x.Game.Id,
-                     Game_Name = x.Game.Game_Name,
-                     Genre = x.GenreName,
-                     Publisher = x.PublisherName
+                    Id = x.Game.Id,
+                    Game_Name = x.Game.Game_Name,
+                    Genre = x.GenreName,
+                    Publisher = x.PublisherName
                 })
                 .ToList();
 
             return View(query);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var genres = await _appDbContext.Genres.OrderBy(x => x.Genre_Name).Select(x => x.Genre_Name).Distinct().ToListAsync();
+            var publishers = await _appDbContext.Publishers.OrderBy(x => x.Publisher_Name).Select(x => x.Publisher_Name).Distinct().ToListAsync();
+            SelectList genres_Selectlist = new SelectList(genres);
+            SelectList publishers_Selectlist = new SelectList(publishers);
+            ViewBag.Genres = genres_Selectlist;
+            ViewBag.Publishers = publishers_Selectlist;
+
+            GameVm model = new GameVm();
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(GameVm model)
+        {
+
+            var genre = await _appDbContext.Genres.FirstOrDefaultAsync(x => x.Genre_Name == model.Genre);
+
+            if(genre == null)
+            {
+                Genre newGenre = new Genre()
+                {
+                    Genre_Name = model.Genre
+                };
+                await _appDbContext.Genres.AddAsync(newGenre);
+                await _appDbContext.SaveChangesAsync();
+            }
+
+            Game entity = new Game()
+            {
+                Game_Name = model.Game_Name,
+                Description = model.Description,
+                GenreId = genre.Id
+            };
+            await _appDbContext.AddAsync(entity);
+            await _appDbContext.SaveChangesAsync();
+            var publisher = new Game_Publisher()
+            {
+                GameId = entity.Id,
+                Publisher = new Publisher() { Publisher_Name = model.Publisher }
+            };
+            await _appDbContext.AddAsync(publisher);
+            await _appDbContext.SaveChangesAsync();
+            foreach (var platformItem in model.Platforms)
+            {
+                var platform = await _appDbContext.Platforms.FirstOrDefaultAsync(p => p.Platform_Name == platformItem.Name);
+                if (platform == null) //if platform doesn't exists in database - add it
+                {
+                    platform = new Platform { Platform_Name = platformItem.Name };
+                    _appDbContext.Platforms.Add(platform);
+                    await _appDbContext.SaveChangesAsync();
+                }
+                var gamePlatform = new Game_Platform
+                {
+                    Game_PublisherId = publisher.Id,
+                    PlatformId = platform.Id,
+                    ReleaseYear = platformItem.ReleaseYear
+                };
+                await _appDbContext.Game_Platforms.AddAsync(gamePlatform);
+            }
+            entity.Genre.Genre_Name = model.Genre;
+
+            await _appDbContext.SaveChangesAsync();
+            return RedirectToAction("Index");
+
         }
 
 
