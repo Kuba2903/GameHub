@@ -20,12 +20,21 @@ namespace WebApp.Controllers
             _appDbContext = dbContext;
         }
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string genre)
         {
             var items = await _appDbContext.Games.ToListAsync();
             var genres = await _appDbContext.Genres.ToListAsync();
             var publishers = await _appDbContext.Publishers.ToListAsync();
             var game_publisher = await _appDbContext.Game_Publishers.ToListAsync();
+
+            ///filtering
+            ViewBag.genres = genres;
+
+            if (!string.IsNullOrEmpty(genre))
+                genres = await _appDbContext.Genres.Where(x => x.Genre_Name == genre).ToListAsync();
+
+
+            ///
 
             var query = items.GroupJoin(
                 genres,
