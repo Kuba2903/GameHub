@@ -20,7 +20,7 @@ namespace WebApp.Controllers
             _appDbContext = dbContext;
         }
         [HttpGet]
-        public async Task<IActionResult> Index(string genre)
+        public async Task<IActionResult> Index(string genre, string publisher)
         {
             var items = await _appDbContext.Games.ToListAsync();
             var genres = await _appDbContext.Genres.ToListAsync();
@@ -29,10 +29,13 @@ namespace WebApp.Controllers
 
             ///filtering
             ViewBag.genres = genres;
+            ViewBag.publishers = publishers;
 
             if (!string.IsNullOrEmpty(genre))
                 genres = await _appDbContext.Genres.Where(x => x.Genre_Name == genre).ToListAsync();
 
+            if(!string.IsNullOrEmpty(publisher))
+                publishers = await _appDbContext.Publishers.Where(x => x.Publisher_Name == publisher).ToListAsync();
 
             ///
 

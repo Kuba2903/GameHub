@@ -2,17 +2,34 @@
 
 <div class="row mb-3">
     <div class="col-md-6">
-        <form asp-action="Index" asp-controller="Games" method="get" class="form-inline">
-            <label class="mr-2">Filter by Genre:</label>
-            <select name="genre" class="form-control mr-2">
-                <option value="">All Genres</option>
-                @foreach (var genre in ViewBag.genres)
-                {
-                    <option value="@genre.Genre_Name">@genre.Genre_Name</option>
-                }
-            </select>
-            <button type="submit" class="btn btn-primary">Apply Filter</button>
-        </form>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Filters</h5>
+                <form asp-action="Index" asp-controller="Games" method="get" class="form-inline">
+                    <div class="form-group mr-3">
+                        <label for="genre" class="mr-2">Genre:</label>
+                        <select id="genre" name="genre" class="form-control">
+                            <option value="">All Genres</option>
+                            @foreach (var genre in ViewBag.genres)
+                            {
+                                <option value="@genre.Genre_Name">@genre.Genre_Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="publisher" class="mr-2">Publisher:</label>
+                        <select id="publisher" name="publisher" class="form-control">
+                            <option value="">All Publishers</option>
+                            @foreach (var publisher in ViewBag.publishers)
+                            {
+                                <option value="@publisher.Publisher_Name">@publisher.Publisher_Name</option>
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary ml-3">Apply Filter</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
