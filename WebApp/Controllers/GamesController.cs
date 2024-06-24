@@ -25,7 +25,6 @@ namespace WebApp.Controllers
             var items = await _appDbContext.Games.ToListAsync();
             var genres = await _appDbContext.Genres.ToListAsync();
             var publishers = await _appDbContext.Publishers.ToListAsync();
-            //var game_publisher = await _appDbContext.Game_Publishers.ToListAsync();
 
             ///filtering
             ViewBag.genres = genres;
@@ -82,7 +81,7 @@ namespace WebApp.Controllers
         {
 
             var genre = await _appDbContext.Genres.FirstOrDefaultAsync(x => x.Genre_Name == model.Genre);
-
+            var publisher = await _appDbContext.Publishers.FirstOrDefaultAsync(x => x.Publisher_Name == model.Publisher);
             if(genre == null)
             {
                 Genre newGenre = new Genre()
@@ -93,19 +92,24 @@ namespace WebApp.Controllers
                 await _appDbContext.SaveChangesAsync();
             }
 
+            if(publisher == null)
+            {
+                Publisher newPublisher = new Publisher()
+                {
+                    Publisher_Name = model.Publisher
+                };
+                await _appDbContext.Publishers.AddAsync(newPublisher);
+                await _appDbContext.SaveChangesAsync();
+            }
+
             Game entity = new Game()
             {
                 Game_Name = model.Game_Name,
                 Description = model.Description,
-                GenreId = genre.Id
+                GenreId = genre.Id,
+                PublisherId = publisher.Id
             };
             await _appDbContext.AddAsync(entity);
-            await _appDbContext.SaveChangesAsync();
-            var publisher = new Publisher()
-            {
-                Publisher_Name = model.Publisher
-            };
-            await _appDbContext.AddAsync(publisher);
             await _appDbContext.SaveChangesAsync();
             foreach (var platformItem in model.Platforms)
             {
@@ -124,7 +128,6 @@ namespace WebApp.Controllers
                 };
                 await _appDbContext.Game_Platforms.AddAsync(gamePlatform);
             }
-            entity.Genre.Genre_Name = model.Genre;
 
             await _appDbContext.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -273,7 +276,6 @@ namespace WebApp.Controllers
 
                 entity.Game_Name = model.Game_Name;
                 entity.Description = model.Description;
-                //entity.Genre.Genre_Name = genre.Genre_Name;
                 entity.GenreId = genre.Id;
 
 
