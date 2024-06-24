@@ -50,13 +50,23 @@ namespace WebApp.Controllers
                     Game = game,
                     GenreName = genreGroup.FirstOrDefault()?.Genre_Name
                 }
+                ).Join(
+                publishers,
+                game => game.Game.PublisherId,
+                publisher => publisher.Id,
+                (game,publisherGroup) => new
+                {
+                    Game = game.Game,
+                    GenreName = game.GenreName,
+                    Publisher = game.Game.Publisher
+                }
                 )
                 .Select(x => new GameVm
                 {
                     Id = x.Game.Id,
                     Game_Name = x.Game.Game_Name,
                     Genre = x.GenreName,
-                    Publisher = x.Game.Publisher.Publisher_Name
+                    Publisher = x.Publisher.Publisher_Name
                 })
                 .ToList();
 
