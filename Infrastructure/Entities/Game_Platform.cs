@@ -15,12 +15,12 @@ namespace Infrastructure.Entities
 
         //foreign keys
 
-        public int Game_PublisherId { get; set; }
+        public int GameId { get; set; }
 
         public int PlatformId { get; set; }
 
-        [ForeignKey("Game_PublisherId")]
-        public Game_Publisher Game_Publisher { get; set; }
+        [ForeignKey("GameId")]
+        public Game Game { get; set; }
 
         [ForeignKey("PlatformId")]
         public Platform Platform { get; set; }

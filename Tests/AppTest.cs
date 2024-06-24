@@ -25,7 +25,7 @@ namespace Tests
 
                 services.AddSingleton<DbConnection>(container =>
                  {
-                     var connection = new SqlConnection("Data Source=HP;Initial Catalog=video_gamesDb;Integrated Security=True;Trust Server Certificate=True");
+                     var connection = new SqlConnection("Data Source=HP;Initial Catalog=video_gamesDb2;Integrated Security=True;Trust Server Certificate=True");
                      connection.Open();
                      return connection;
                  });

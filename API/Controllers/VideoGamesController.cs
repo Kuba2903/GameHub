@@ -74,21 +74,6 @@ namespace API.Controllers
                 return NotFound();
         }
 
-        [HttpGet]
-        [Route("getGame_Publisher")]
-
-        public async Task<IActionResult> GetAllGame_PublisherAsync([FromQuery] int pageSize = 5, [FromQuery] int pageNumber = 1)
-        {
-            if (pageSize < 1 || pageNumber < 1)
-                return BadRequest("pageSize or pageNumber must be greater than 0!");
-
-            var result = await _videoGamesService.GetAllAsync<Game_Publisher>(pageSize, pageNumber);
-
-            if (result != null)
-                return Ok(result.Select(_mapper.Map<Game_PublisherDTO>));
-            else
-                return NotFound();
-        }
 
         [HttpGet]
         [Route("getPlatform")]
@@ -198,18 +183,6 @@ namespace API.Controllers
         }
 
 
-        [HttpPost]
-        [Route("addGame_Publisher")]
-
-        public async Task<IActionResult> AddGame_PublisherAsync(AddGame_PublisherDTO dto)
-        {
-            var mapped = _mapper.Map<Game_Publisher>(dto);
-
-            await _videoGamesService.AddAsync(mapped);
-
-            return Ok("Added record to the database");
-        }
-
 
         [HttpPost]
         [Route("addPlatform")]
@@ -306,23 +279,6 @@ namespace API.Controllers
         public async Task<IActionResult> DeletePublishers(int id)
         {
             var entity = await _videoGamesService.FindByIdAsync<Publisher>(id);
-
-            if (entity != null)
-            {
-                await _videoGamesService.RemoveAsync(entity);
-                return Ok("Record removed");
-            }
-            else
-                return NotFound($"Record with {id} id not found");
-
-        }
-
-
-        [HttpDelete]
-        [Route("deleteGame_Publishers")]
-        public async Task<IActionResult> DeleteGame_Publishers(int id)
-        {
-            var entity = await _videoGamesService.FindByIdAsync<Game_Publisher>(id);
 
             if (entity != null)
             {
@@ -454,20 +410,6 @@ namespace API.Controllers
                 return NotFound("Not found");
         }
 
-        [HttpPut]
-        [Route("updateGame_Publisher")]
-        public async Task<IActionResult> UpdateGame_Publisher(Game_PublisherDTO dto)
-        {
-            var mapped = _mapper.Map<Game_Publisher>(dto);
-
-            if (mapped != null)
-            {
-                await _videoGamesService.UpdateAsync(mapped);
-                return Ok("Updated");
-            }
-            else
-                return NotFound("Not found");
-        }
 
         [HttpPut]
         [Route("updatePlatform")]

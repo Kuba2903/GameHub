@@ -6,8 +6,6 @@
 
         public int ReleaseYear { get; set; }
 
-        public int Game_PublisherId { get; set; }
-
         public int PlatformId { get; set; }
     }
 }

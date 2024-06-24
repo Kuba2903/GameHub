@@ -1,4 +1,5 @@
-﻿using Infrastructure.Entities;
+﻿using BCrypt.Net;
+using Infrastructure.Entities;
 using Infrastructure.Entities.User_Roles_Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Infrastructure
 {
@@ -23,7 +25,7 @@ namespace Infrastructure
 
         public DbSet<Game> Games { get; set; }
 
-        public DbSet<Game_Publisher> Game_Publishers { get; set; }
+        //public DbSet<Game_Publisher> Game_Publishers { get; set; }
         
         public DbSet<Game_Platform> Game_Platforms { get; set; }
         public DbSet<Region_Sales> Region_Sales { get; set; }
@@ -39,7 +41,8 @@ namespace Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //provide your own database con string
-            optionsBuilder.UseSqlServer("Data Source=HP;Initial Catalog=video_gamesDb;Integrated Security=True;Trust Server Certificate=True");
+            //optionsBuilder.UseSqlServer("Data Source=HP;Initial Catalog=video_gamesDb;Integrated Security=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source = HP;Initial Catalog=video_gamesDb2;Integrated Security=True;Trust Server Certificate=True");
         }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
@@ -60,21 +63,22 @@ namespace Infrastructure
                 new Genre() {Id = 3 ,Genre_Name = "Shooters"}, new Genre() { Id = 4 ,Genre_Name = "Sports"},
                 new Genre() { Id = 5 ,Genre_Name = "Simulators"});
 
-            modelBuilder.Entity<Game>()
-                .HasData(new Game() {Id = 1 , GenreId = 1, Game_Name = "The Witcher",
-                Description = "\"The Witcher\" is an action role-playing game developed by CD Projekt Red, based on the book series by Andrzej Sapkowski. Set in a richly detailed, medieval fantasy world, players assume the role of Geralt of Rivia, a skilled monster hunter known as a Witcher. The game is renowned for its mature narrative, complex characters, and moral ambiguity, offering players a deeply immersive experience. In \"The Witcher,\" Geralt navigates through a world filled with political intrigue, supernatural threats, and moral dilemmas. Players make choices that influence the story and its outcome, engaging in combat with a variety of weapons and magical abilities. The game's open-world design allows for extensive exploration, with numerous side quests and activities to pursue alongside the main storyline"
-                },
-                new Game() { Id = 2 ,GenreId = 2, Game_Name = "Warcraft", Description = "\"Warcraft\" is a high-fantasy, real-time strategy game series developed and published by Blizzard Entertainment. Set in the expansive and lore-rich world of Azeroth, the game focuses on the epic conflict between various factions, primarily the Alliance and the Horde, as well as other races and factions with their own agendas." },
-                new Game() { Id = 3 ,GenreId = 3, Game_Name = "Call of Duty", Description = "\"Call of Duty\" is a highly popular first-person shooter (FPS) video game series developed and published by Activision. Initially set in World War II, the franchise has since expanded to cover various historical periods, modern-day conflicts, and futuristic settings. Known for its intense gameplay, cinematic storytelling, and competitive multiplayer modes, \"Call of Duty\" has become one of the best-selling game franchises of all time." },
-                new Game() { Id = 4 ,GenreId = 4, Game_Name = "Fifa", Description = "\"FIFA\" is a long-standing and immensely popular series of football (soccer) simulation video games developed and published by Electronic Arts (EA) under the EA Sports label. Known for its realistic gameplay, extensive licensing, and comprehensive game modes, \"FIFA\" has become the go-to title for football fans around the world." },
-                new Game() { Id = 5 ,GenreId = 5, Game_Name = "Farming Simulator", Description = "\"Farming Simulator\" is a series of simulation video games developed by Giants Software. It offers players an immersive and detailed experience of managing a modern farm. The game emphasizes realistic farming activities, including cultivating crops, raising livestock, and managing machinery. It has gained a dedicated fanbase for its authentic representation of agricultural life and its comprehensive gameplay mechanics." });
-
             modelBuilder.Entity<Publisher>()
                 .HasData(new Publisher() { Id = 1, Publisher_Name = "EA Sports" },
-                new Publisher() { Id = 2, Publisher_Name = "CD Projekt Red"},
-                new Publisher() { Id = 3, Publisher_Name = "Blizzard"},
-                new Publisher() { Id = 4, Publisher_Name = "GIANTS Software"}
+                new Publisher() { Id = 2, Publisher_Name = "CD Projekt Red" },
+                new Publisher() { Id = 3, Publisher_Name = "Blizzard" },
+                new Publisher() { Id = 4, Publisher_Name = "GIANTS Software" }
                 );
+
+            modelBuilder.Entity<Game>()
+                .HasData(new Game() {Id = 1 , GenreId = 1, Game_Name = "The Witcher", PublisherId = 2,
+                Description = "\"The Witcher\" is an action role-playing game developed by CD Projekt Red, based on the book series by Andrzej Sapkowski. Set in a richly detailed, medieval fantasy world, players assume the role of Geralt of Rivia, a skilled monster hunter known as a Witcher. The game is renowned for its mature narrative, complex characters, and moral ambiguity, offering players a deeply immersive experience. In \"The Witcher,\" Geralt navigates through a world filled with political intrigue, supernatural threats, and moral dilemmas. Players make choices that influence the story and its outcome, engaging in combat with a variety of weapons and magical abilities. The game's open-world design allows for extensive exploration, with numerous side quests and activities to pursue alongside the main storyline"
+                },
+                new Game() { Id = 2 ,GenreId = 2, PublisherId = 3 , Game_Name = "Warcraft", Description = "\"Warcraft\" is a high-fantasy, real-time strategy game series developed and published by Blizzard Entertainment. Set in the expansive and lore-rich world of Azeroth, the game focuses on the epic conflict between various factions, primarily the Alliance and the Horde, as well as other races and factions with their own agendas." },
+                new Game() { Id = 3 ,GenreId = 3, PublisherId = 3 , Game_Name = "Call of Duty", Description = "\"Call of Duty\" is a highly popular first-person shooter (FPS) video game series developed and published by Activision. Initially set in World War II, the franchise has since expanded to cover various historical periods, modern-day conflicts, and futuristic settings. Known for its intense gameplay, cinematic storytelling, and competitive multiplayer modes, \"Call of Duty\" has become one of the best-selling game franchises of all time." },
+                new Game() { Id = 4 ,GenreId = 4, PublisherId = 1 , Game_Name = "Fifa", Description = "\"FIFA\" is a long-standing and immensely popular series of football (soccer) simulation video games developed and published by Electronic Arts (EA) under the EA Sports label. Known for its realistic gameplay, extensive licensing, and comprehensive game modes, \"FIFA\" has become the go-to title for football fans around the world." },
+                new Game() { Id = 5 ,GenreId = 5, PublisherId = 4 , Game_Name = "Farming Simulator", Description = "\"Farming Simulator\" is a series of simulation video games developed by Giants Software. It offers players an immersive and detailed experience of managing a modern farm. The game emphasizes realistic farming activities, including cultivating crops, raising livestock, and managing machinery. It has gained a dedicated fanbase for its authentic representation of agricultural life and its comprehensive gameplay mechanics." });
+
 
             modelBuilder.Entity<Platform>()
                 .HasData(new Platform() { Id = 1, Platform_Name = "Windows"},
@@ -88,13 +92,13 @@ namespace Infrastructure
                 new Platform() { Id = 9, Platform_Name = "Android" }
                 );
 
-            modelBuilder.Entity<Game_Publisher>()
+            /*modelBuilder.Entity<Game_Publisher>()
                 .HasData(new Game_Publisher() { Id = 1, GameId = 1, PublisherId =  2},
                 new Game_Publisher() { Id = 2, GameId = 2, PublisherId = 3},
                 new Game_Publisher() { Id = 3, GameId = 3, PublisherId = 3},
                 new Game_Publisher() { Id = 4, GameId = 4, PublisherId = 1},
                 new Game_Publisher() { Id = 5, GameId = 5, PublisherId = 4 }
-                );
+                );*/
 
             modelBuilder.Entity<Region>()
                 .HasData(new Region() { Id = 1, Region_Name = "Europa"},
@@ -104,20 +108,20 @@ namespace Infrastructure
                 );
 
             modelBuilder.Entity<Game_Platform>()
-                .HasData(new Game_Platform() { Id = 1, Game_PublisherId = 1, PlatformId = 1, ReleaseYear = 2015},
-                new Game_Platform() { Id = 2, Game_PublisherId = 1, PlatformId = 3, ReleaseYear = 2015 },
-                new Game_Platform() { Id = 3, Game_PublisherId = 1, PlatformId = 7, ReleaseYear = 2015 },
-                new Game_Platform() { Id = 4, Game_PublisherId = 1, PlatformId = 2, ReleaseYear = 2023 },
-                new Game_Platform() { Id = 5, Game_PublisherId = 1, PlatformId = 8, ReleaseYear = 2023 },
-                new Game_Platform() { Id = 6, Game_PublisherId = 5, PlatformId = 1, ReleaseYear = 2020 },
-                new Game_Platform() { Id = 7, Game_PublisherId = 5, PlatformId = 9, ReleaseYear = 2021 },
-                new Game_Platform() { Id = 8, Game_PublisherId = 2, PlatformId = 1, ReleaseYear = 2000 },
-                new Game_Platform() { Id = 9, Game_PublisherId = 2, PlatformId = 5, ReleaseYear = 2005 },
-                new Game_Platform() { Id = 10, Game_PublisherId = 3, PlatformId = 1, ReleaseYear = 2012 },
-                new Game_Platform() { Id = 11, Game_PublisherId = 3, PlatformId = 4, ReleaseYear = 2013 },
-                new Game_Platform() { Id = 12, Game_PublisherId = 3, PlatformId = 6, ReleaseYear = 2013 },
-                new Game_Platform() { Id = 13, Game_PublisherId = 4, PlatformId = 8, ReleaseYear = 2023 },
-                new Game_Platform() { Id = 14, Game_PublisherId = 4, PlatformId = 2, ReleaseYear = 2023 }
+                .HasData(new Game_Platform() { Id = 1, GameId = 1, PlatformId = 1, ReleaseYear = 2015},
+                new Game_Platform() { Id = 2, GameId = 1, PlatformId = 3, ReleaseYear = 2015 },
+                new Game_Platform() { Id = 3, GameId = 1, PlatformId = 7, ReleaseYear = 2015 },
+                new Game_Platform() { Id = 4, GameId = 1, PlatformId = 2, ReleaseYear = 2023 },
+                new Game_Platform() { Id = 5, GameId = 1, PlatformId = 8, ReleaseYear = 2023 },
+                new Game_Platform() { Id = 6, GameId = 5, PlatformId = 1, ReleaseYear = 2020 },
+                new Game_Platform() { Id = 7, GameId = 5, PlatformId = 9, ReleaseYear = 2021 },
+                new Game_Platform() { Id = 8, GameId = 2, PlatformId = 1, ReleaseYear = 2000 },
+                new Game_Platform() { Id = 9, GameId = 2, PlatformId = 5, ReleaseYear = 2005 },
+                new Game_Platform() { Id = 10, GameId = 3, PlatformId = 1, ReleaseYear = 2012 },
+                new Game_Platform() { Id = 11, GameId = 3, PlatformId = 4, ReleaseYear = 2013 },
+                new Game_Platform() { Id = 12, GameId = 3, PlatformId = 6, ReleaseYear = 2013 },
+                new Game_Platform() { Id = 13, GameId = 4, PlatformId = 8, ReleaseYear = 2023 },
+                new Game_Platform() { Id = 14, GameId = 4, PlatformId = 2, ReleaseYear = 2023 }
                 );
 
 

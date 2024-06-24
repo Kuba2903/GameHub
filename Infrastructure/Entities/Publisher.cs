@@ -15,6 +15,6 @@ namespace Infrastructure.Entities
         public string Publisher_Name { get; set; }
 
 
-        public ICollection<Game_Publisher> Games_Publishers { get; set; }
+        public ICollection<Game> Games { get; set; }
     }
 }

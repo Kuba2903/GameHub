@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Entities
 {
-    public class Game_Publisher
+    /*public class Game_Publisher
     {
         public int Id { get; set; }
 
@@ -22,5 +22,5 @@ namespace Infrastructure.Entities
 
 
         public ICollection<Game_Platform> Game_Platforms { get; set; }
-    }
+    }*/
 }
