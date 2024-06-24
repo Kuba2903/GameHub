@@ -74,7 +74,7 @@ namespace API.Controllers
                 return NotFound();
         }
 
-        [HttpGet]
+        /*[HttpGet]
         [Route("getGame_Publisher")]
 
         public async Task<IActionResult> GetAllGame_PublisherAsync([FromQuery] int pageSize = 5, [FromQuery] int pageNumber = 1)
@@ -88,7 +88,7 @@ namespace API.Controllers
                 return Ok(result.Select(_mapper.Map<Game_PublisherDTO>));
             else
                 return NotFound();
-        }
+        }*/
 
         [HttpGet]
         [Route("getPlatform")]
@@ -198,7 +198,7 @@ namespace API.Controllers
         }
 
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("addGame_Publisher")]
 
         public async Task<IActionResult> AddGame_PublisherAsync(AddGame_PublisherDTO dto)
@@ -208,7 +208,7 @@ namespace API.Controllers
             await _videoGamesService.AddAsync(mapped);
 
             return Ok("Added record to the database");
-        }
+        }*/
 
 
         [HttpPost]
@@ -318,7 +318,7 @@ namespace API.Controllers
         }
 
 
-        [HttpDelete]
+        /*[HttpDelete]
         [Route("deleteGame_Publishers")]
         public async Task<IActionResult> DeleteGame_Publishers(int id)
         {
@@ -332,7 +332,7 @@ namespace API.Controllers
             else
                 return NotFound($"Record with {id} id not found");
 
-        }
+        }*/
 
 
 
@@ -454,7 +454,7 @@ namespace API.Controllers
                 return NotFound("Not found");
         }
 
-        [HttpPut]
+        /*[HttpPut]
         [Route("updateGame_Publisher")]
         public async Task<IActionResult> UpdateGame_Publisher(Game_PublisherDTO dto)
         {
@@ -467,7 +467,7 @@ namespace API.Controllers
             }
             else
                 return NotFound("Not found");
-        }
+        }*/
 
         [HttpPut]
         [Route("updatePlatform")]

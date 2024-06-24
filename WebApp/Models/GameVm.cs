@@ -12,7 +12,6 @@ namespace WebApp.Models
 
         public string Publisher { get; set; }
         public string Description { get; set; }
-
         public List<PlatformsVm> Platforms { get; set; } = new List<PlatformsVm>();
 
     }

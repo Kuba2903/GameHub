@@ -16,13 +16,16 @@ namespace Infrastructure.Entities
         public string Game_Name { get; set; }
 
         public int GenreId { get; set; }
+        public int PublisherId { get; set; }
 
         public string Description { get; set; }
 
         [ForeignKey("GenreId")]
         public Genre Genre { get; set; }
 
+        [ForeignKey("PublisherId")]
+        public Publisher Publisher { get; set; }
 
-        public ICollection<Game_Publisher> Games_Publishers { get; set; }
+        public ICollection<Game_Platform> Platforms { get; set; }
     }
 }

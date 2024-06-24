@@ -11,7 +11,7 @@ namespace API
         {
            CreateMap<Game,GameDTO>();
            CreateMap<Genre,GenreDTO>();
-           CreateMap<Game_Publisher,Game_PublisherDTO>();
+           //CreateMap<Game_Publisher,Game_PublisherDTO>();
            CreateMap<Game_Platform,Game_PlatformDTO>();
            CreateMap<Platform,PlatformDTO>();
            CreateMap<Publisher, PublisherDTO>();
@@ -21,7 +21,7 @@ namespace API
 
            CreateMap<GameDTO, Game>();
            CreateMap<GenreDTO, Genre>();
-           CreateMap<Game_PublisherDTO, Game_Publisher>();
+           //CreateMap<Game_PublisherDTO, Game_Publisher>();
            CreateMap<Game_PlatformDTO, Game_Platform>();
            CreateMap<PlatformDTO, Platform>();
            CreateMap<PublisherDTO, Publisher>();
@@ -31,7 +31,7 @@ namespace API
 
            CreateMap<AddGameDTO, Game>().ForMember(x => x.Id, opt => opt.Ignore());
            CreateMap<AddGenreDTO, Genre>().ForMember(x => x.Id, opt => opt.Ignore());
-           CreateMap<AddGame_PublisherDTO, Game_Publisher>().ForMember(x => x.Id, opt => opt.Ignore());
+           //CreateMap<AddGame_PublisherDTO, Game_Publisher>().ForMember(x => x.Id, opt => opt.Ignore());
            CreateMap<AddGame_PlatformDTO, Game_Platform>().ForMember(x => x.Id, opt => opt.Ignore());
            CreateMap<AddPlatformDTO, Platform>().ForMember(x => x.Id, opt => opt.Ignore());
            CreateMap<AddPublisherDTO, Publisher>().ForMember(x => x.Id, opt => opt.Ignore());

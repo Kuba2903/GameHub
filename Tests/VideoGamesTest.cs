@@ -28,28 +28,28 @@ namespace Tests
                 new Genre(){ Id = 2, Genre_Name = "RTS" }
             };
 
-            var games = new HashSet<Game>
-            {
-                new Game(){ Id = 1, GenreId = 1, Game_Name = "The Witcher" },
-                new Game(){ Id = 2, GenreId = 2, Game_Name = "Warcraft" }
-            };
-
             var publishers = new HashSet<Publisher>
             {
                 new Publisher(){ Id = 1, Publisher_Name = "EA Sports" },
                 new Publisher(){ Id = 2, Publisher_Name = "CD Projekt Red" }
             };
 
-            var game_publishers = new HashSet<Game_Publisher>
+            var games = new HashSet<Game>
+            {
+                new Game(){ Id = 1, GenreId = 1, Game_Name = "The Witcher", PublisherId = 2 },
+                new Game(){ Id = 2, GenreId = 2, Game_Name = "Warcraft" , PublisherId = 1 }
+            };
+
+            /*var game_publishers = new HashSet<Game_Publisher>
             {
                 new Game_Publisher(){ Id = 1, GameId = 1, PublisherId = 2 },
                 new Game_Publisher(){ Id = 2, GameId = 2, PublisherId = 1 } // corrected the PublisherId to match seeded data
-            };
+            };*/
 
             context.Genres.AddRange(genres);
             context.Games.AddRange(games);
             context.Publishers.AddRange(publishers);
-            context.Game_Publishers.AddRange(game_publishers);
+            //context.Game_Publishers.AddRange(game_publishers);
             await context.SaveChangesAsync();
         }
 
@@ -58,7 +58,7 @@ namespace Tests
             context.Genres.RemoveRange(context.Genres);
             context.Games.RemoveRange(context.Games);
             context.Publishers.RemoveRange(context.Publishers);
-            context.Game_Publishers.RemoveRange(context.Game_Publishers);
+            //context.Game_Publishers.RemoveRange(context.Game_Publishers);
             await context.SaveChangesAsync();
         }
 
