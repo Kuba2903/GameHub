@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Entities;
+using Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +16,11 @@ namespace WebApp.Controllers
 
         //private readonly ApiService _apiService;
         private readonly AppDbContext _appDbContext;
-        public GamesController(AppDbContext dbContext)
+        private readonly IVideoGames _service;
+        public GamesController(AppDbContext dbContext, IVideoGames service)
         {
             _appDbContext = dbContext;
+            _service = service;
         }
         [HttpGet]
         public async Task<IActionResult> Index(string genre, string publisher)

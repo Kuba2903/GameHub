@@ -71,7 +71,7 @@ namespace Infrastructure
                 );
 
             modelBuilder.Entity<Game>()
-                .HasData(new Game() {Id = 1 , GenreId = 1, Game_Name = "The Witcher", PublisherId = 1,
+                .HasData(new Game() {Id = 1 , GenreId = 1, Game_Name = "The Witcher", PublisherId = 2,
                 Description = "\"The Witcher\" is an action role-playing game developed by CD Projekt Red, based on the book series by Andrzej Sapkowski. Set in a richly detailed, medieval fantasy world, players assume the role of Geralt of Rivia, a skilled monster hunter known as a Witcher. The game is renowned for its mature narrative, complex characters, and moral ambiguity, offering players a deeply immersive experience. In \"The Witcher,\" Geralt navigates through a world filled with political intrigue, supernatural threats, and moral dilemmas. Players make choices that influence the story and its outcome, engaging in combat with a variety of weapons and magical abilities. The game's open-world design allows for extensive exploration, with numerous side quests and activities to pursue alongside the main storyline"
                 },
                 new Game() { Id = 2 ,GenreId = 2, PublisherId = 3 , Game_Name = "Warcraft", Description = "\"Warcraft\" is a high-fantasy, real-time strategy game series developed and published by Blizzard Entertainment. Set in the expansive and lore-rich world of Azeroth, the game focuses on the epic conflict between various factions, primarily the Alliance and the Horde, as well as other races and factions with their own agendas." },
