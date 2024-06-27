@@ -14,13 +14,10 @@ namespace WebApp.Controllers
     public class GamesController : Controller
     {
 
-        //private readonly ApiService _apiService;
         private readonly AppDbContext _appDbContext;
-        private readonly IVideoGames _service;
-        public GamesController(AppDbContext dbContext, IVideoGames service)
+        public GamesController(AppDbContext dbContext)
         {
             _appDbContext = dbContext;
-            _service = service;
         }
         [HttpGet]
         public async Task<IActionResult> Index(string? sortOrder,string genre, string publisher)

@@ -6,6 +6,7 @@ namespace WebApp.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Game name")]
         public string Game_Name { get; set; }
 
         public string? Genre { get; set; }
