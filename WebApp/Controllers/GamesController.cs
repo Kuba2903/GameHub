@@ -11,11 +11,11 @@ using WebApp.Models;
 namespace WebApp.Controllers
 {
     
-    public class GameController : Controller
+    public class GamesController : Controller
     {
 
         private readonly AppDbContext _appDbContext;
-        public GameController(AppDbContext dbContext)
+        public GamesController(AppDbContext dbContext)
         {
             _appDbContext = dbContext;
         }
