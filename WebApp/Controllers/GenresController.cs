@@ -73,5 +73,31 @@ namespace WebApp.Controllers
             
             return RedirectToAction("Index");
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = await service.FindByIdAsync<Genre>(id);
+            var model = new GenreVm() { Id = id, Genre_Name = item.Genre_Name };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirm(int id)
+        {
+            var item = await service.FindByIdAsync<Genre>(id);
+
+            if(item != null)
+            {
+                await service.RemoveAsync<Genre>(item);
+            }
+            else
+            {
+                return View(item);
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
