@@ -1,0 +1,15 @@
+﻿@model GenreVm
+
+<form method="post" asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Genre_Name"></label>
+        <input asp-for="Genre_Name" class="form-control" />
+        <span asp-validation-for="Genre_Name" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm" title="Back to List">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+</form>
