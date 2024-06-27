@@ -38,12 +38,23 @@
         <tr>
             <th>Tools</th>
             <th>
+                Game name
                 <a href="@Url.Action("Index", new { sortOrder = ViewBag.GameSortParm })">
-                    Game name
+                    <i class="bi bi-arrow-down-up"></i>
                 </a>
             </th>
-            <th>Genre</th>
-            <th>Publisher</th>
+            <th>
+                Genre
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.GenreSortParm })">
+                    <i class="bi bi-arrow-down-up"></i>
+                </a>
+            </th>
+            <th>
+                Publisher
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.PublisherSortParm })">
+                    <i class="bi bi-arrow-down-up"></i>
+                </a>
+            </th>
         </tr>
     </thead>
     <tbody>
