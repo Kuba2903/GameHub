@@ -37,7 +37,11 @@
     <thead class="thead-dark">
         <tr>
             <th>Tools</th>
-            <th>Game name</th>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.GameSortParm })">
+                    Game name
+                </a>
+            </th>
             <th>Genre</th>
             <th>Publisher</th>
         </tr>
