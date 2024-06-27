@@ -14,20 +14,48 @@ namespace WebApp.Controllers
     public class GamesController : Controller
     {
 
-        //private readonly ApiService _apiService;
         private readonly AppDbContext _appDbContext;
-        private readonly IVideoGames _service;
-        public GamesController(AppDbContext dbContext, IVideoGames service)
+        public GamesController(AppDbContext dbContext)
         {
             _appDbContext = dbContext;
-            _service = service;
         }
         [HttpGet]
-        public async Task<IActionResult> Index(string genre, string publisher)
+        public async Task<IActionResult> Index(string? sortOrder,string genre, string publisher)
         {
             var items = await _appDbContext.Games.ToListAsync();
             var genres = await _appDbContext.Genres.ToListAsync();
             var publishers = await _appDbContext.Publishers.ToListAsync();
+
+            ///sorting
+
+            ViewBag.GameSortParm = sortOrder == "game" ? "game_desc" : "game";
+            ViewBag.GenreSortParm = sortOrder == "genre" ? "genre_desc" : "genre";
+            ViewBag.PublisherSortParm = sortOrder == "publisher" ? "publisher_desc" : "publisher";
+
+            switch (sortOrder)
+            {
+                case "game_desc":
+                    items = items.OrderByDescending(x => x.Game_Name).ToList();
+                    break;
+                case "game":
+                    items = items.OrderBy(x => x.Game_Name).ToList();
+                    break;
+                case "genre_desc":
+                    genres = genres.OrderByDescending(x => x.Genre_Name).ToList();
+                    break;
+                case "genre":
+                    genres = genres.OrderBy(x => x.Genre_Name).ToList();
+                    break;
+                case "publisher_desc":
+                    publishers = publishers.OrderByDescending(x => x.Publisher_Name).ToList();
+                    break;
+                case "publisher":
+                    publishers = publishers.OrderBy(x => x.Publisher_Name).ToList();
+                    break;
+
+            }
+            ///
+
 
             ///filtering
             ViewBag.genres = genres;
@@ -50,13 +78,23 @@ namespace WebApp.Controllers
                     Game = game,
                     GenreName = genreGroup.FirstOrDefault()?.Genre_Name
                 }
+                ).Join(
+                publishers,
+                game => game.Game.PublisherId,
+                publisher => publisher.Id,
+                (game,publisherGroup) => new
+                {
+                    Game = game.Game,
+                    GenreName = game.GenreName,
+                    Publisher = game.Game.Publisher
+                }
                 )
                 .Select(x => new GameVm
                 {
                     Id = x.Game.Id,
                     Game_Name = x.Game.Game_Name,
                     Genre = x.GenreName,
-                    Publisher = x.Game.Publisher.Publisher_Name
+                    Publisher = x.Publisher.Publisher_Name
                 })
                 .ToList();
 
