@@ -99,5 +99,57 @@ namespace WebApp.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var item = await service.FindByIdAsync<Genre>(id);
+
+            if (item != null)
+            {
+                GenreVm model = new GenreVm { Id = item.Id, Genre_Name = item.Genre_Name };
+                return View(model);
+            }
+            return View();
+        }
+
+
+        [HttpPost]
+
+        public async Task<IActionResult> Edit(GenreVm model)
+        {
+            var item = await service.FindByIdAsync<Genre>(model.Id);
+
+            if(item != null)
+            {
+                item.Genre_Name = model.Genre_Name;
+                await service.UpdateAsync<Genre>(item);
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
+
+        [HttpGet]
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var item = await service.FindByIdAsync<Genre>(id);
+
+            if(item != null)
+            {
+                var games = await 
+                    dbContext.Games.Include(x => x.Genre)
+                    .Where(x => x.Genre.Genre_Name == item.Genre_Name).ToListAsync();
+
+                ViewBag.GenreName = item.Genre_Name;
+
+                return View(games);
+            }
+
+            return View();
+        }
     }
 }
