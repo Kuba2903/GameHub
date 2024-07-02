@@ -7,6 +7,7 @@ namespace WebApp.Models
         public int Id { get; set; }
 
         [Display(Name = "Genre name")]
+        [Required(ErrorMessage = "Genre name cannot be empty!")]
         public string Genre_Name { get; set; }
     }
 }

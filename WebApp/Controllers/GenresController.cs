@@ -64,11 +64,15 @@ namespace WebApp.Controllers
                 {
                     Genre_Name = model.Genre_Name,
                 };
-                await service.AddAsync<Genre>(entity);
+
+                if (entity.Genre_Name != null)
+                    await service.AddAsync<Genre>(entity);
+                else
+                    return View();
             }
             else
             {
-                return View(model);
+                return View();
             }
             
             return RedirectToAction("Index");
