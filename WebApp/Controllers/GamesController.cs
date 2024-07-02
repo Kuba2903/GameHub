@@ -150,28 +150,38 @@ namespace WebApp.Controllers
                 GenreId = genre.Id,
                 PublisherId = publisher.Id
             };
-            await _appDbContext.AddAsync(entity);
-            await _appDbContext.SaveChangesAsync();
-            foreach (var platformItem in model.Platforms)
-            {
-                var platform = await _appDbContext.Platforms.FirstOrDefaultAsync(p => p.Platform_Name == platformItem.Name);
-                if (platform == null) //if platform doesn't exists in database - add it
-                {
-                    platform = new Platform { Platform_Name = platformItem.Name };
-                    _appDbContext.Platforms.Add(platform);
-                    await _appDbContext.SaveChangesAsync();
-                }
-                var gamePlatform = new Game_Platform
-                {
-                    GameId = entity.Id,
-                    PlatformId = platform.Id,
-                    ReleaseYear = platformItem.ReleaseYear
-                };
-                await _appDbContext.Game_Platforms.AddAsync(gamePlatform);
-            }
 
-            await _appDbContext.SaveChangesAsync();
-            return RedirectToAction("Index");
+            //validate
+            if (!string.IsNullOrEmpty(entity.Game_Name) && !string.IsNullOrEmpty(entity.Description))
+            {
+
+                await _appDbContext.AddAsync(entity);
+                await _appDbContext.SaveChangesAsync();
+                foreach (var platformItem in model.Platforms)
+                {
+                    var platform = await _appDbContext.Platforms.FirstOrDefaultAsync(p => p.Platform_Name == platformItem.Name);
+                    if (platform == null) //if platform doesn't exists in database - add it
+                    {
+                        platform = new Platform { Platform_Name = platformItem.Name };
+                        _appDbContext.Platforms.Add(platform);
+                        await _appDbContext.SaveChangesAsync();
+                    }
+                    var gamePlatform = new Game_Platform
+                    {
+                        GameId = entity.Id,
+                        PlatformId = platform.Id,
+                        ReleaseYear = platformItem.ReleaseYear
+                    };
+                    await _appDbContext.Game_Platforms.AddAsync(gamePlatform);
+                }
+
+                await _appDbContext.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
 
         }
 
