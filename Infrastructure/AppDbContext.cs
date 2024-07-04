@@ -176,6 +176,9 @@ namespace Infrastructure
                     Id = "1",
                     UserName = "User0",
                     NormalizedUserName = "USER0",
+                    Email = "User0@onet.pl",
+                    EmailConfirmed = true,
+                    NormalizedEmail = "USER0@ONET.PL",
                     PasswordHash = hasher.HashPassword(null, "password123!")
                 },
                 new IdentityUser
