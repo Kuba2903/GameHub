@@ -1,12 +1,14 @@
 ﻿using Infrastructure;
 using Infrastructure.Entities;
 using Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class PublishersController : Controller
     {
         private readonly IVideoGames _service;

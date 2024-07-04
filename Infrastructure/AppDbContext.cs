@@ -1,6 +1,8 @@
 ﻿using BCrypt.Net;
 using Infrastructure.Entities;
 using Infrastructure.Entities.User_Roles_Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Infrastructure
 {
-    public class AppDbContext : DbContext 
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         //parent entities
         public DbSet<Genre> Genres { get; set; }
@@ -154,6 +156,42 @@ namespace Infrastructure
                 new User_Role() { Id = 2, UserId = 1, RoleId = 2},
                 new User_Role() { Id = 3, UserId = 2, RoleId = 2 }
                 );
+
+
+            string roleId = Guid.NewGuid().ToString();
+            modelBuilder.Entity<IdentityRole>()
+                .HasData(new IdentityRole()
+                {
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR",
+                    Id = roleId,
+                    ConcurrencyStamp = roleId
+                });
+
+            var hasher = new PasswordHasher<IdentityUser>();
+
+            modelBuilder.Entity<IdentityUser>()
+                .HasData(new IdentityUser
+                {
+                    Id = "1",
+                    UserName = "User0",
+                    NormalizedUserName = "USER0",
+                    PasswordHash = hasher.HashPassword(null, "password123!")
+                },
+                new IdentityUser
+                {
+                    Id = "2",
+                    UserName = "User1",
+                    NormalizedUserName = "USER1",
+                    PasswordHash = hasher.HashPassword(null, "password321!")
+                });
+
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                    .HasData(new IdentityUserRole<string>
+                    {
+                        RoleId = roleId,
+                        UserId = "1"
+                    });
         }
     }
 }
