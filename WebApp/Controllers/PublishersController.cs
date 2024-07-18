@@ -8,7 +8,7 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize]
     public class PublishersController : Controller
     {
         private readonly IVideoGames _service;
@@ -20,6 +20,7 @@ namespace WebApp.Controllers
             _dbContext = dbContext;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string sortOrder)
         {
             var entities = await _service.GetAllAsync<Publisher>();

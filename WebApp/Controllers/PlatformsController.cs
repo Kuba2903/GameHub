@@ -1,12 +1,14 @@
 ﻿using Infrastructure;
 using Infrastructure.Entities;
 using Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class PlatformsController : Controller
     {
         private readonly IVideoGames _service;
@@ -18,6 +20,7 @@ namespace WebApp.Controllers
             _dbContext = dbContext;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string sortOrder)
         {
             var items = await _service.GetAllAsync<Platform>();
