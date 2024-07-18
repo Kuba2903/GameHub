@@ -71,8 +71,8 @@ namespace Infrastructure.Services.Implementations
 
             var user = await FindUserByLogin(login.Login);
 
-            if (!BCrypt.Net.BCrypt.Verify(login.Password, user.Password))
-                throw new Exception("password invalid");
+            /*if (!BCrypt.Net.BCrypt.Verify(login.Password, user.Password))
+                throw new Exception("password invalid");*/
 
 
             var getUserRole = await FindUserRole(user.Id);

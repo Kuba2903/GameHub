@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Entities;
 using Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,8 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    
+
+    [Authorize]
     public class GamesController : Controller
     {
 
@@ -20,6 +22,7 @@ namespace WebApp.Controllers
             _appDbContext = dbContext;
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string? sortOrder,string genre, string publisher)
         {
             var items = await _appDbContext.Games.ToListAsync();

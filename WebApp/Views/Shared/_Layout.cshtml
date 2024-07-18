@@ -49,28 +49,8 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (string.IsNullOrEmpty(ViewBag.name))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="LoginAccount">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CreateAccount">Register</a>
-                            </li>
-                        }
-                        @if (!string.IsNullOrEmpty(ViewBag.name))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Sign_Out">Sign out</a>
-                            </li>
-                        }
+                        <partial name="_LoginPartial" />
                     </ul>
-                    @if (!string.IsNullOrEmpty(ViewBag.name))
-                    {
-                        <span class="navbar-text">
-                            Welcome, @ViewBag.name
-                        </span>
-                    }
                 </div>
             </div>
         </nav>
@@ -111,6 +91,7 @@
                                 Publishers
                             </a>
                         </li>
+
                     </ul>
                 </div>
             </nav>
