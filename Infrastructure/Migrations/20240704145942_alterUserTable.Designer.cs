@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240704145942_alterUserTable")]
+    partial class alterUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -345,10 +348,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("StockSymbol")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Publishers");
@@ -357,26 +356,22 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Publisher_Name = "EA Sports",
-                            StockSymbol = "NASDAQ"
+                            Publisher_Name = "EA Sports"
                         },
                         new
                         {
                             Id = 2,
-                            Publisher_Name = "CD Projekt Red",
-                            StockSymbol = "OTGLY"
+                            Publisher_Name = "CD Projekt Red"
                         },
                         new
                         {
                             Id = 3,
-                            Publisher_Name = "Blizzard",
-                            StockSymbol = "ATVI"
+                            Publisher_Name = "Blizzard"
                         },
                         new
                         {
                             Id = 4,
-                            Publisher_Name = "GIANTS Software",
-                            StockSymbol = "GGLT"
+                            Publisher_Name = "GIANTS Software"
                         });
                 });
 
@@ -550,6 +545,10 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -566,12 +565,14 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            Email = "User0@onet.pl",
                             Login = "User0",
                             Password = "password123!"
                         },
                         new
                         {
                             Id = 2,
+                            Email = "User1@onet.pl",
                             Login = "User1",
                             Password = "password321!"
                         });
@@ -649,8 +650,8 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e5395923-5183-4164-ad6b-d2d38e2a7864",
-                            ConcurrencyStamp = "e5395923-5183-4164-ad6b-d2d38e2a7864",
+                            Id = "b635957a-d57e-44ec-8608-10000d09727d",
+                            ConcurrencyStamp = "b635957a-d57e-44ec-8608-10000d09727d",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -750,15 +751,15 @@ namespace Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1cec1b32-9380-424f-aa7a-3c57993d0c35",
+                            ConcurrencyStamp = "69e860e6-6559-40a1-b698-3af63979a06a",
                             Email = "User0@onet.pl",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER0@ONET.PL",
                             NormalizedUserName = "USER0",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKa/tg7KByUKWGuCEDzVt3eOg9qlZfxM/h3tbIzvK5DrjXQmtSeYqLTp7mKcttQYWw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBiaKTwaOQis6kAS2DfzLcvdotc4bZA4Qy22fX3nptAyGv+omy7FGLAgvFSZNJRJEw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bc7b584c-9649-4607-96eb-e1fdc4b9d9a0",
+                            SecurityStamp = "8d786ff4-4915-4415-96fa-8fa58c4e77f0",
                             TwoFactorEnabled = false,
                             UserName = "User0"
                         },
@@ -766,13 +767,15 @@ namespace Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "69f0ec78-21d9-4e76-b5da-2015af28b460",
-                            EmailConfirmed = false,
+                            ConcurrencyStamp = "7d5a78e2-2190-4e21-8255-187fefaf2de4",
+                            Email = "User1@onet.pl",
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
+                            NormalizedEmail = "USER1@ONET.PL",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEeISYetixDMjOw7OhYrjqfOYB+KOI/rSg3O9SWiofLPq0fMsWsJ7+apuPhY16merg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBpZ4Xq6t6XInUVus4oKPxjpExPtLtwGKjJ78k8m8s5K9lZRRWquFpRcYJNJlz2PhA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "820dd043-e3aa-43ca-8009-be9ff2ca8291",
+                            SecurityStamp = "fc841a92-a1a1-4a27-9d57-92030cb5ac75",
                             TwoFactorEnabled = false,
                             UserName = "User1"
                         });
@@ -806,10 +809,12 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -843,7 +848,12 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = "1",
-                            RoleId = "e5395923-5183-4164-ad6b-d2d38e2a7864"
+                            RoleId = "b635957a-d57e-44ec-8608-10000d09727d"
+                        },
+                        new
+                        {
+                            UserId = "2",
+                            RoleId = "b635957a-d57e-44ec-8608-10000d09727d"
                         });
                 });
 
@@ -853,10 +863,12 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

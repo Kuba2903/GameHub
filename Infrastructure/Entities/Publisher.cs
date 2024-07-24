@@ -14,6 +14,7 @@ namespace Infrastructure.Entities
         [StringLength(150)]
         public string Publisher_Name { get; set; }
 
+        public string StockSymbol { get; set; }
 
         public ICollection<Game> Games { get; set; }
     }

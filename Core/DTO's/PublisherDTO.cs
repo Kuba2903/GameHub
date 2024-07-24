@@ -8,5 +8,7 @@ namespace API.DTO_s
 
         [StringLength(150)]
         public string Publisher_Name { get; set; }
+
+        public string StockSymbol { get; set; }
     }
 }
