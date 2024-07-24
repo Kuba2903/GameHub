@@ -8,16 +8,18 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class PublishersController : Controller
     {
         private readonly IVideoGames _service;
         private readonly AppDbContext _dbContext;
+        private readonly ApiService _api;
 
-        public PublishersController(IVideoGames service, AppDbContext dbContext)
+        public PublishersController(IVideoGames service, AppDbContext dbContext, ApiService api)
         {
             _service = service;
             _dbContext = dbContext;
+            _api = api;
         }
 
         [AllowAnonymous]
@@ -59,7 +61,7 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var entity = new Publisher() { Publisher_Name = model.Name };
+                var entity = new Publisher() { Publisher_Name = model.Name, StockSymbol = model.StockSymbol };
 
                 await _service.AddAsync<Publisher>(entity);
                 return RedirectToAction("Index");
@@ -79,7 +81,7 @@ namespace WebApp.Controllers
 
             if (item != null)
             {
-                PublisherVm model = new PublisherVm { Id = item.Id, Name = item.Publisher_Name };
+                PublisherVm model = new PublisherVm { Id = item.Id, Name = item.Publisher_Name, StockSymbol = item.StockSymbol };
                 return View(model);
             }
             else
@@ -95,6 +97,7 @@ namespace WebApp.Controllers
             {
                 var entity = await _service.FindByIdAsync<Publisher>(model.Id);
                 entity.Publisher_Name = model.Name;
+                entity.StockSymbol = model.StockSymbol;
                 await _service.UpdateAsync<Publisher>(entity);
 
                 return RedirectToAction("Index");
@@ -139,7 +142,10 @@ namespace WebApp.Controllers
             var query = _dbContext.Games.Include(x => x.Publisher)
                 .Where(x => x.Publisher.Publisher_Name == entity.Publisher_Name).Select(x => x.Game_Name);
 
+            var stock = await _api.GetStock(entity.StockSymbol);
+
             ViewBag.PublisherName = entity.Publisher_Name;
+            ViewBag.Stock = stock;
 
             return View(query);
         }

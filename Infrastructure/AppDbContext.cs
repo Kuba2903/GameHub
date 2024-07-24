@@ -66,10 +66,10 @@ namespace Infrastructure
                 new Genre() { Id = 5 ,Genre_Name = "Simulators"});
 
             modelBuilder.Entity<Publisher>()
-                .HasData(new Publisher() { Id = 1, Publisher_Name = "EA Sports" },
-                new Publisher() { Id = 2, Publisher_Name = "CD Projekt Red" },
-                new Publisher() { Id = 3, Publisher_Name = "Blizzard" },
-                new Publisher() { Id = 4, Publisher_Name = "GIANTS Software" }
+                .HasData(new Publisher() { Id = 1, Publisher_Name = "EA Sports", StockSymbol = "NASDAQ" },
+                new Publisher() { Id = 2, Publisher_Name = "CD Projekt Red", StockSymbol = "OTGLY" },
+                new Publisher() { Id = 3, Publisher_Name = "Blizzard", StockSymbol = "ATVI" },
+                new Publisher() { Id = 4, Publisher_Name = "GIANTS Software", StockSymbol = "GGLT" }
                 );
 
             modelBuilder.Entity<Game>()

@@ -8,5 +8,7 @@ namespace WebApp.Models
 
         [Required(ErrorMessage = "Publisher name is required!")]
         public string Name { get; set; }
+
+        public string StockSymbol { get; set; }
     }
 }
