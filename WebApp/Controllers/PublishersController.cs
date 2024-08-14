@@ -8,7 +8,7 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class PublishersController : Controller
     {
         private readonly IVideoGames _service;
